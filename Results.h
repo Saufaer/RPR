@@ -75,17 +75,15 @@ Point E(START start)
 //	return El2;
 //}
 
-
-void CONFIG_A()
+void Solve(START start)
 {
-	START start;
-
+	
 	Point B(B(start));
 	Point D(D(start));
 	Point E(E(start));
 
-	Point pl2 = l2(E.p, E.u, E, B, start);
-	if (Check_L1_l2(start, pl2, B))
+	Point El2 = l2(E.p, E.u, E, B, start);
+	if (Check_L1_l2(start, El2, B))
 	{
 		NL2_NL1 NN = NL2_Nl2(start, E, B);
 
@@ -105,4 +103,28 @@ void CONFIG_A()
 		cout << "p2=" << start.p2 << endl;
 		cout << "u2=" << start.u2 << endl;
 	}
+	else
+	{
+		Point N = Search_Conf_B(start, El2, B);
+
+		cout << endl << "CONFIG B" << endl;
+		cout << "p4=" << El2.p << endl;
+		cout << "u4=" << El2.u << endl;
+		cout << endl;
+		cout << "p3=" << N.p << endl;
+		cout << "u3=" << N.u << endl;
+		cout << endl;
+		cout << "p'3=" << N.p << endl;
+		cout << "u'3=" << N.u << endl;
+		cout << endl;
+		cout << "p5=" << E.p << endl;
+		cout << "u5=" << E.u << endl;
+		cout << endl;
+		cout << "p1=" << start.p1 << endl;
+		cout << "u1=" << start.u1 << endl;
+		cout << endl;
+		cout << "p2=" << start.p2 << endl;
+		cout << "u2=" << start.u2 << endl;
+	}
+
 }

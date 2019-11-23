@@ -1,6 +1,7 @@
 #include <math.h>
 #include "Rules_6_7_8.h"
 #include "Rules_15.h"
+#include "Rules_19.h"
 #include <iostream>
 #ifndef L1_L2
 
@@ -17,8 +18,8 @@ struct START
 	double p1 = 100000;
 	double p2 = 100000;
 
-	double u1 = 60;
-	double u2 = 60;
+	double u1 = 200;
+	double u2 = 200;
 
 	double c1 = 343;
 	double c2 = 343;
@@ -102,6 +103,35 @@ struct NL2_NL1
 	Point NL2;
 	Point NL1;
 };
+Point Search_Conf_B(START start, Point El2, Point B)
+{
+	double p4 = El2.p;
+	double u4 = El2.u;
+
+	double p = p4;
+	double u = u4;
+
+	double uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
+
+	while (true)
+	{
+		//if (p <= 0) { break; }
+		if (fabs(u - uL1) <= 0.1) { break; }
+		p -= 0.1;
+		uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
+		u = Addict_l2(p, p4, u4, start.c2, start.gamma2);
+	}
+	/*std::cout << "uL1=" << uL1 << "   pL1=" << p << std::endl;
+	std::cout << "u4=" << u << "   p4=" << p << std::endl;*/
+
+
+	Point N_B{ Point{p,u} };
+
+	return N_B;
+
+}
+
+
 NL2_NL1 NL2_Nl2(START start,Point E,Point B)
 {
 	
@@ -110,7 +140,10 @@ NL2_NL1 NL2_Nl2(START start,Point E,Point B)
 	Point pl2;
 	double uL1 = 0;
 	bool IsSearch = false;
-	while (true)//идём вниз по кривой
+
+	NL2_NL1 TwoPoints{ NULL, NULL };
+
+	while (true)//идём вниз по кривой из (p2,u2)
 	{
 		p += 0.1;
 		if (p >= B.p) { break; }
@@ -120,11 +153,16 @@ NL2_NL1 NL2_Nl2(START start,Point E,Point B)
 		
 		 uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 		
-		 if (fabs(pl2.u - uL1) <= 0.1) { IsSearch = true; break; }
+		 if (fabs(pl2.u - uL1) <= 0.1) {
+			 IsSearch = true;
+			 TwoPoints.NL1 = pl2;
+			 TwoPoints.NL2 = Point{ p,u };
+			 break;
+		 }
 		
 	}
 
-	if (!IsSearch)//если не смоги найти ниже НУ, то идём вверх по кривой
+	if ((p >= B.p)&&(!IsSearch))//если не смоги найти ниже НУ, то идём вверх по кривой из (p2,u2)
 	{
 		p = start.p2;
 		u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
@@ -138,20 +176,30 @@ NL2_NL1 NL2_Nl2(START start,Point E,Point B)
 
 			uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-			if (fabs(pl2.u - uL1) <= 0.1) { IsSearch = true; break; }
+			if (fabs(pl2.u - uL1) <= 0.1) {
+				IsSearch = true;
+				TwoPoints.NL1 = pl2;
+				TwoPoints.NL2 = Point{ p,u };
+				break;
+			}
 
 		}
+	}
+	if  ((p <= E.p)&&(!IsSearch))//идём вверх по кривой из (p4,u4)
+	{
+		Point P_confB = Search_Conf_B(start, l2(E.p, E.u, E, B, start) , B);
+
 	}
 
 	/*std::cout << "u5=" << u << "   p5=" << p << std::endl;
 	std::cout << "u4=" << pl2.u << "   p4=" << pl2.p << std::endl;
 	std::cout << "uL1=" << uL1 << "   pL1=" << p << std::endl;*/
 
-	NL2_NL1 TwoPoints{ pl2,Point{p,u} };
-
 	return TwoPoints;
 
 }
+
+
 
 bool Check_L1_l2(START start, Point El2, Point B)
 {
@@ -200,7 +248,7 @@ bool Check_L1_l2(START start, Point El2, Point B)
 	}
 
 	//FINAL
-	if (DOSTAT == true && NEOBHODIM == true)
+	if (DOSTAT && NEOBHODIM)
 	{
 		return true;
 	}
