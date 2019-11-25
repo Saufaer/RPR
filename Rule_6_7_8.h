@@ -1,7 +1,8 @@
 #include <math.h>
-#ifndef RULES_678
+#ifndef RULE_678
+#define RULE_678
 
-double ALPHA(double A1, double A2)
+double ALPHA1(double A1, double A2)
 {
 	double alpha = A1 / A2;
 	return alpha;

@@ -1,9 +1,9 @@
 #include <math.h>
-#include "Rule_6_7_8.h"
-#include "Rule_15.h"
-#include "Rule_19.h"
+
+
 #include <iostream>
 #ifndef Curves
+#define Curves
 
 //Curves (12,13)
 double muiquadr(double gammai)
