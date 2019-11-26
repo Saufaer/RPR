@@ -20,7 +20,6 @@ Point C2(START start)
 {
 	Point c2{ NULL };
 
-	
 	double p = start.p1;
 	double u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 

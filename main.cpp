@@ -14,10 +14,10 @@ int main()
 	start.gamma1 = 1.1;
 
 	start.p1 = 100000;
-	start.p2 = 100000;
+	start.p2 = 140000;
 
-	start.u1 = -50;
-	start.u2 = -50;
+	start.u1 = -170;
+	start.u2 = -170;
 
 	start.c1 = 343;
 	start.c2 = 343;
