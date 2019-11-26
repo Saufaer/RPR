@@ -16,8 +16,8 @@ int main()
 	start.p1 = 100000;
 	start.p2 = 140000;
 
-	start.u1 = -170;
-	start.u2 = -170;
+	start.u1 = 70;
+	start.u2 = 70;
 
 	start.c1 = 343;
 	start.c2 = 343;

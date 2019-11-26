@@ -11,10 +11,9 @@ void Solve_Outflow(START  &start)
 {
 
 	Point B(B(start));
-	Point D(D(start));
 	Point E(E(start));
 	Point El2 = Get_from_l2(E.p, E.u, E, B, start);
-
+	//Point D(D(start));
 	if (Check_CONF_A(start, El2, B))
 	{
 		TwoPoints NN = Search_Conf_A(start, E, B);
@@ -74,7 +73,6 @@ void Solve_Inflow(START  &start)
 
 	if (Check_Inflow(start, C1))
 	{
-
 		if (Check_CONF_A1(start, H, C1))
 		{
 			TwoPoints NN = Search_Conf_A1(start, C2, C1);

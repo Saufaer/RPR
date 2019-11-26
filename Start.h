@@ -13,21 +13,21 @@ struct TwoPoints
 
 struct START
 {
-	double gamma2 = 1.1;
-	double gamma1 = 1.1;
+	double A2;
+	double A1;
 
-	double p1 = 100000;
-	double p2 = 100000;
+	double p2;
+	double p1;
 
-	double u1 = -60;
-	double u2 = -60;
+	double u2;
+	double u1;
 
-	double c1 = 343;
-	double c2 = 343;
+	double c2;
+	double c1;
 
-	double ro1 = 0.5;
-	double ro2 = 0.5;
+	double ro2;
+	double ro1;
 
-	double A1 = 100;
-	double A2 = 200;
+	double gamma2;
+	double gamma1;
 };
