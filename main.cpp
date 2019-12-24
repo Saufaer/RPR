@@ -10,23 +10,25 @@ int main()
 
 	START start;
 
-	start.gamma2 = 1.1;
-	start.gamma1 = 1.1;
+	start.A2 = 10;
+	start.A1 = 5;
+	
+	start.p2 = 303975;
+	start.p1 = 353975;
+	
+	start.u2 = 150;
+	start.u1 = 170;
 
-	start.p1 = 100000;
-	start.p2 = 140000;
 
-	start.u1 = 70;
-	start.u2 = 70;
 
-	start.c1 = 343;
-	start.c2 = 343;
+	start.ro2 = 1.667;
+	start.ro1 = 1.667;
 
-	start.ro1 = 0.5;
-	start.ro2 = 0.5;
+	start.gamma2 = 1.4;
+	start.gamma1 = 1.4;
 
-	start.A1 = 100;
-	start.A2 = 200;
+	start.c2 = sqrtf(start.gamma2*(start.p2/ start.ro2));
+	start.c1 = sqrtf(start.gamma1*(start.p1 / start.ro1));
 
 	Solve(start);
 
