@@ -160,11 +160,14 @@ void Solve_Inflow(START  &start)
 
 void Solve(START &start)
 {
-	if (start.u2 > 0 && start.u1 > 0)
+	start.c2 = sqrtf(start.gamma2*(start.p2 / start.ro2));
+	start.c1 = sqrtf(start.gamma1*(start.p1 / start.ro1));
+	cout << endl << "c2 = " << start.c2 << endl << "c1 = " << start.c1 << endl;
+	if (start.u2 > 0 && start.u1 > 0 && start.u2 / start.c2 < 1)
 	{
 		Solve_Outflow(start);
 	}
-	if (start.u2 < 0 && start.u1 < 0)
+	if (start.u2 < 0 && start.u1 < 0 && start.u1 / start.c1 > -1)
 	{
 		Solve_Inflow(start);
 	}

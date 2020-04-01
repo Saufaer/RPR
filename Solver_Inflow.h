@@ -138,7 +138,7 @@ bool Check_CONF_A1(START start, Point H, Point C1)
 	double gamma2 = start.gamma2;
 	double c1 = start.c1;
 	double c2 = start.c2;
-	//necessary
+	//necessary - neobh
 	if (p1 < C1.p)
 	{
 		if (u1 + FIi(C1.p, p1, ro1, gamma1) < 0)
@@ -153,17 +153,17 @@ bool Check_CONF_A1(START start, Point H, Point C1)
 			NEOBHODIM = true;
 		}
 	}
-	//sufficient
+	//sufficient - dostat
 	if (p2 < H.p)
 	{
-		if (u2 - FIi(H.p, p2, ro2, gamma2) - H.u > 0)
+		if (u2 - FIi(H.p, p2, ro2, gamma2) - H.u < 0)
 		{
 			DOSTAT = true;
 		}
 	}
 	else
 	{
-		if (u2 - PSIi(H.p, p2, gamma2, gamma2, c2) - H.u > 0)
+		if (u2 - PSIi(H.p, p2, gamma2, gamma2, c2) - H.u < 0)
 		{
 			DOSTAT = true;
 		}
@@ -214,14 +214,14 @@ bool Check_CONF_B1(START start, Point F, Point C1)
 	//sufficient
 	if (p2 < F.p)
 	{
-		if (u2 - FIi(F.p, p2, ro2, gamma2) - F.u <= 0)
+		if (u2 - FIi(F.p, p2, ro2, gamma2) - F.u > 0)
 		{
 			DOSTAT = true;
 		}
 	}
 	else
 	{
-		if (u2 - PSIi(F.p, p2, gamma2, gamma2, c2) - F.u <= 0)
+		if (u2 - PSIi(F.p, p2, gamma2, gamma2, c2) - F.u > 0)
 		{
 			DOSTAT = true;
 		}
@@ -270,16 +270,16 @@ bool Check_CONF_B2(START start, Point F2, Point C1)
 		}
 	}
 	//sufficient
-	if (p2 <= F2.p)
+	if (p2 < F2.p)
 	{
-		if (u2 - FIi(F2.p, p2, ro2, gamma2) - F2.u < 0)
+		if (u2 - FIi(F2.p, p2, ro2, gamma2) - F2.u > 0)
 		{
 			DOSTAT = true;
 		}
 	}
 	else
 	{
-		if (u2 - PSIi(F2.p, p2, gamma2, gamma2, c2) - F2.u < 0)
+		if (u2 - PSIi(F2.p, p2, gamma2, gamma2, c2) - F2.u > 0)
 		{
 			DOSTAT = true;
 		}
