@@ -1,0 +1,4 @@
+﻿  main.cpp
+d:\учёба 2019-2020\кочетков\распад разрыва\project_rpr\rpr\rpr\solver.h(163): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\учёба 2019-2020\кочетков\распад разрыва\project_rpr\rpr\rpr\solver.h(164): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  RPR.vcxproj -> D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\RPR\x64\Debug\RPR.exe
