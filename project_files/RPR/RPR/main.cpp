@@ -25,6 +25,14 @@ void SetDefault(START *start)
 }
 int main(int argc, char **argv)
 {
+	remove("Points.txt");
+	remove("L2_1.txt");
+	remove("cl2_1.txt");
+	remove("L1_1.txt");
+
+	remove("L2_2.txt");
+	remove("cl2_2.txt");
+	remove("L1_2.txt");
 	typedef std::numeric_limits< double > dbl;
 	cout.precision(dbl::max_digits10);
 

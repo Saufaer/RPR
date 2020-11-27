@@ -2,6 +2,7 @@
 #include "Points_Outflow.h"
 #include "Rule_6_7_8.h"
 #include "Rule_19.h"
+#include <climits>
 Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 {
 	double u4 = 0;
@@ -12,8 +13,8 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 		p4 = B.p;
 		u4 = 0;
 	}
-	else
-	//if (E.p <= p5 && p5 < B.p && B.u < u5 && u5 <= E.u)
+	//else
+	if (E.p <= p5 && p5 < B.p && B.u < u5 && u5 <= E.u)
 	{
 
 		double ro5 = start.ro2;
@@ -24,13 +25,13 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 		u4 = U4(a, u5, start.gamma2, z, dzetta);
 		p4 = P4(u4, u5, ro5, p5, ALPHA1(start.A1, start.A2));
 	}
-	/*if (p5 == E.p && u5 == E.u)
+	if (p5 == E.p && u5 == E.u)
 	{
-		double r = sqrt((start.gamma2 + 1)*(2 + (start.gamma2 - 1)*pow(M5Max(ALPHA(start.A1, start.A2), start.gamma2), 2)));
+		double r = sqrt((start.gamma2 + 1)*(2 + (start.gamma2 - 1)*pow(M5Max(ALPHA1(start.A1, start.A2), start.gamma2), 2)));
 
 		u4 = (sqrt(C5QUADR(start.gamma2, start.ro2, E.p))*r) / (start.gamma2 + 1);
-		p4 = (E.p / (start.gamma2 + 1))*(r / (r - start.gamma2*M5Max(ALPHA(start.A1, start.A2), start.gamma2)));
-	}*/
+		p4 = (E.p / (start.gamma2 + 1))*(r / (r - start.gamma2*M5Max(ALPHA1(start.A1, start.A2), start.gamma2)));
+	}
 	return Point{ p4, u4 };
 }
 
@@ -101,19 +102,27 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B)
 
 	while (true)//start down from (p2,u2)
 	{
-		p += 0.1;
+		p += 0.5;
 		if (p >= B.p) { break; }
 		u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
 
 		pl2 = Get_from_l2(p, u, E, B, start);//point from l2
-
+		
 		uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
-
-		if (fabs(pl2.u - uL1) <= 0.1) {
+		
+		if (fabs(pl2.u - uL1) <= 1) {
 			IsSearch = true;
 			TwoPoints.NL1 = pl2;
+			
 			TwoPoints.NL2 = Point{ p,u };
 			break;
+		}
+		int c = round(p);
+		if (((c%747) == 0) && (pl2.p!=0))
+		{
+			Write("L1_1.p = " + to_string(pl2.p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt");
+			Write("cl2_1.p = " + to_string(pl2.p) + "\n" + "cl2_1.u = " + to_string(pl2.u) + "\n", "cl2_1.txt");
+            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt");
 		}
 
 	}
@@ -124,7 +133,7 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B)
 		u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 		while (true)
 		{
-			p -= 0.1;
+			p -= 0.5;
 			if (p < E.p) { break; }
 			u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
 
@@ -132,20 +141,22 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B)
 
 			uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-			if (fabs(pl2.u - uL1) <= 0.1) {
+			if (fabs(pl2.u - uL1) <= 1) {
 				IsSearch = true;
 				TwoPoints.NL1 = pl2;
 				TwoPoints.NL2 = Point{ p,u };
 				break;
 			}
-
+			int c = round(p);
+			if (((c % 747) == 0) && (pl2.p != 0))
+			{
+				Write("L1_1.p = " + to_string(pl2.p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt");
+				Write("cl2_1.p = " + to_string(pl2.p) + "\n" + "cl2_1.u = " + to_string(pl2.u) + "\n", "cl2_1.txt");
+				Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt");
+			}
 		}
 	}
 
-
-	/*std::cout << "u5=" << u << "   p5=" << p << std::endl;
-	std::cout << "u4=" << pl2.u << "   p4=" << pl2.p << std::endl;
-	std::cout << "uL1=" << uL1 << "   pL1=" << p << std::endl;*/
 
 	return TwoPoints;
 
