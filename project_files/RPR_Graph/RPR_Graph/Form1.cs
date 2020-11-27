@@ -18,11 +18,109 @@ namespace RPR_Graph
         public Form1()
         {
             InitializeComponent();
-            DrawPoints(@"Points.txt","Points",45);
-            DrawPoints(@"cl2_1.txt", "cl2_1", 15);
-            DrawPoints(@"L2_1.txt", "L2_1", 30);
-            DrawPoints(@"L1_1.txt", "L1_1", 30);
+            ReadNRun();
         }
+
+        public void RunProcess(string path)
+        {
+                if (File.Exists(path))
+                {
+                    // This path is a file
+                    ProcessFile(path);
+                }
+                else if (Directory.Exists(path))
+                {
+                    // This path is a directory
+                    ProcessDirectory(path);
+                }
+                else
+                {
+                    textBox1.Text = path+" is not a valid file or directory";
+                }
+        }
+
+        // Process all files in the directory passed in, recurse on any directories
+        // that are found, and process the files they contain.
+        public  void ProcessDirectory(string targetDirectory)
+        {
+            // Process the list of files found in the directory.
+            string[] fileEntries = Directory.GetFiles(targetDirectory);
+            foreach (string fileName in fileEntries)
+                ProcessFile(fileName);
+
+            // Recurse into subdirectories of this directory.
+            string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+            foreach (string subdirectory in subdirectoryEntries)
+                ProcessDirectory(subdirectory);
+        }
+
+        // Insert logic for processing found files here.
+        public  void ProcessFile(string path)
+        {
+            textBox1.Text = "Processed file "+ path;
+            DrawPoints(path, GetAfter(GetBefore(path, "."),"\\"), 45);
+        }
+        public string GetAfter(string text, string stopAt = "\\")
+        {
+            if (!String.IsNullOrWhiteSpace(text))
+            {
+                int charLocation = text.IndexOf(stopAt, StringComparison.Ordinal);
+
+                if (charLocation > 0)
+                {
+                    return text.Substring(charLocation, text.Length-1);
+                }
+            }
+
+            return String.Empty;
+        }
+        public string GetBefore(string text, string stopAt = ".")
+        {
+            if (!String.IsNullOrWhiteSpace(text))
+            {
+                int charLocation = text.IndexOf(stopAt, StringComparison.Ordinal);
+
+                if (charLocation > 0)
+                {
+                    return text.Substring(0, charLocation);
+                }
+            }
+
+            return String.Empty;
+        }
+        void ReadNRun()
+        {
+            string path = "";
+            
+            for (int i=4;i<7;i++)
+            {
+                while (chart1.Series.Count > 0) { chart1.Series.RemoveAt(0); }
+                foreach (var series in chart1.Series)
+                {
+                    chart1.Series.Clear();
+                    series.Points.Clear();
+                }
+                this.chart1.DataBind();
+
+                path += i.ToString();
+                RunProcess(path);
+
+                //string[] files = Directory.GetFiles(path, ".txt");
+                //for (int j = 0; j < files.Length; j++)
+                //{
+                //    files[i] = Path.GetFileName(files[j]);
+
+                //    DrawPoints(files[i], GetUntilOrEmpty(files[i]), 45);
+                //}
+
+                path = "";
+            }
+            //DrawPoints(@"Points.txt", "Points", 45);
+            //DrawPoints(@"cl2_1.txt", "cl2_1", 15);
+            //DrawPoints(@"L2_1.txt", "L2_1", 30);
+            //DrawPoints(@"L1_1.txt", "L1_1", 100);
+        }
+
         void DrawPoints(string file, string type, int color)
         {
             string path = file;
@@ -71,8 +169,10 @@ namespace RPR_Graph
             double p = -1;
             double u = -1;
             int i = 0;
-            if(type=="Points")
+            if(type=="\\Points")
             {
+                chart1.Series.Add(type);
+                chart1.Series[type].ChartType = SeriesChartType.Point;
                 foreach (var pairL in listPoints)
                 {
                     nameP = pairL.Key;
@@ -84,27 +184,23 @@ namespace RPR_Graph
                     TextAnnotation TA = new TextAnnotation();
                     TA.Text = nameP;
                     TA.SetAnchor(chart1.Series[type].Points[i]);
-                    chart1.Series[type].Points[i].Color = Color.HotPink;
+                    chart1.Series[type].Points[i].Color = Color.Red;
                     chart1.Annotations.Add(TA);
                     i++;
                 }
             }
-            if(type!= "Points")
+            if(type!= "\\Points")
             {
+                chart1.Series.Add(type);
                 chart1.Series[type].ChartType = SeriesChartType.Line;
-               // chart1.Series[type].Color = Color.FromArgb(color, color, color);
                 foreach (var pairL in listPoints)
                 {
                     nameP = pairL.Key;
                     p = pairL.Value.Key;
                     u = pairL.Value.Value;
-                    // textBox1.AppendText(nameP + " = " + p + " ; " + u + "\r\n");
                     
                     chart1.Series[type].Points.AddXY(p, u);
-                   // TextAnnotation TA = new TextAnnotation();
-                   // TA.Text = nameP;
-                   // TA.SetAnchor(chart1.Series[type].Points[i]);
-                    chart1.Series[type].Points[i].Color = Color.HotPink;
+
                 }
             }
         }

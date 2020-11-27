@@ -34,10 +34,11 @@ struct START
 	double gamma1;
 };
 
-void Write(string str, string file)
+void Write(string str, string file, int i)
 {
 	ofstream output;
-	output.open(file,ios_base::app);
+	
+	output.open(to_string(i)+"\\"+file,ios_base::app);
 	output << str;
 	output.close();
 }

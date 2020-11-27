@@ -25,14 +25,17 @@ void SetDefault(START *start)
 }
 int main(int argc, char **argv)
 {
-	remove("Points.txt");
+
+	/*remove("Points.txt");
+
 	remove("L2_1.txt");
 	remove("cl2_1.txt");
 	remove("L1_1.txt");
 
 	remove("L2_2.txt");
 	remove("cl2_2.txt");
-	remove("L1_2.txt");
+	remove("L1_2.txt");*/
+
 	typedef std::numeric_limits< double > dbl;
 	cout.precision(dbl::max_digits10);
 
@@ -41,8 +44,9 @@ int main(int argc, char **argv)
 	if (argc == 1)
 	{
 		SetDefault(&start);
-
-		Solve(start);
+		system("RD /s/q  1");
+		system("mkdir 1");
+		Solve(start,1);
 	}
 	else if (argc == 11)
 	{
@@ -60,8 +64,9 @@ int main(int argc, char **argv)
 
 		start.gamma2 = std::atof(argv[9]);
 		start.gamma1 = std::atof(argv[10]);
-
-		Solve(start);
+		system("RD /s/q  1");
+		system("mkdir 1");
+		Solve(start,1);
 	}
 	else if (argc == 2)
 	{
@@ -69,7 +74,7 @@ int main(int argc, char **argv)
 		ifstream fin;
 		fin.open(argv[1]);
 		string var = "";
-
+		int c = 1;
 		while (getline(fin, line))
 		{
 			cout << endl << "INPUT:";
@@ -102,7 +107,12 @@ int main(int argc, char **argv)
 
 			start.gamma2 = *iter++;
 			start.gamma1 = *iter++;
-			Solve(start);
+			string comm = "RD /s/q " + to_string(c);
+			system(comm.c_str());
+			comm = "mkdir " + to_string(c);
+			system(comm.c_str());
+			Solve(start, c);
+			c++;
 		}
 		fin.close();
 		cout << endl;

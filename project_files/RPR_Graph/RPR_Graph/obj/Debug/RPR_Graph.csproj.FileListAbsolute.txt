@@ -8,3 +8,13 @@ D:\Учёба 2019-2020\Кочетков\Распад разрыва\Graph\RPR_G
 D:\Учёба 2019-2020\Кочетков\Распад разрыва\Graph\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.csproj.CoreCompileInputs.cache
 D:\Учёба 2019-2020\Кочетков\Распад разрыва\Graph\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.exe
 D:\Учёба 2019-2020\Кочетков\Распад разрыва\Graph\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.pdb
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\bin\Debug\RPR_Graph.exe.config
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\bin\Debug\RPR_Graph.exe
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\bin\Debug\RPR_Graph.pdb
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.csprojAssemblyReference.cache
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.Form1.resources
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.Properties.Resources.resources
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.csproj.GenerateResource.cache
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.csproj.CoreCompileInputs.cache
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.exe
+D:\Учёба 2019-2020\Кочетков\Распад разрыва\Project_RPR\r\RPR\project_files\RPR_Graph\RPR_Graph\obj\Debug\RPR_Graph.pdb

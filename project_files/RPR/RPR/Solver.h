@@ -4,22 +4,22 @@ using namespace std;
 #include "Solver_Outflow.h"
 #include "Solver_Inflow.h"
 #include <iostream>
-
-void Solve_Outflow(START  &start)
+#include "windows.h"
+void Solve_Outflow(START  &start,int i)
 {
 
 	Point B(B(start));
-	Write("\nB.p = " + to_string(B.p) + "\nB.u = " + to_string(B.u) + "\n","Points.txt");
+	Write("\nB.p = " + to_string(B.p) + "\nB.u = " + to_string(B.u) + "\n","Points.txt",i);
 	Point E(E(start));
-	Write("\nE.p = " + to_string(E.p) + "\nE.u = " + to_string(E.u) + "\n", "Points.txt");
+	Write("\nE.p = " + to_string(E.p) + "\nE.u = " + to_string(E.u) + "\n", "Points.txt", i);
 	Point El2 = Get_from_l2(E.p, E.u, E, B, start);
-	Write("\nEl2.p = " + to_string(El2.p) + "\nEl2.u = " + to_string(El2.u) + "\n", "Points.txt");
+	Write("\nEl2.p = " + to_string(El2.p) + "\nEl2.u = " + to_string(El2.u) + "\n", "Points.txt", i);
 
 
 	//Point D(D(start));
 	if (Check_CONF_A(start, El2, B))
 	{
-		TwoPoints NN = Search_Conf_A(start, E, B);
+		TwoPoints NN = Search_Conf_A(start, E, B, i);
 
 		string res = "";
 
@@ -42,11 +42,12 @@ void Solve_Outflow(START  &start)
 		res += "\n";
 		res += "CHECK: " + to_string(Check_RES_Outflow(NN.NL2, NN.NL1));
 		cout << res;
-		Write(res, "Points.txt");
+		
+		Write(res, "Points.txt", i);
 	}
 	else
 	{
-		Point NL1 = Search_Conf_B(start, El2, B);
+		Point NL1 = Search_Conf_B(start, El2, B, i);
 
 		string res = "";
 
@@ -72,7 +73,7 @@ void Solve_Outflow(START  &start)
 		res += "\n";
 		res += "CHECK: " + to_string(Check_RES_Outflow(E, El2));
 		cout << res;
-		Write(res, "Points.txt");
+		Write(res, "Points.txt", i);
 
 		//cout << endl << "CONFIG B" << endl;
 		//cout << "p4=" << El2.p << endl;
@@ -98,7 +99,7 @@ void Solve_Outflow(START  &start)
 
 }
 
-void Solve_Inflow(START  &start)
+void Solve_Inflow(START  &start, int i)
 {
 	Point C1(C1(start));
 	Point C2(C2(start));
@@ -192,7 +193,7 @@ void Solve_Inflow(START  &start)
 	}
 }
 
-void Solve(START &start)
+void Solve(START &start, int i)
 {
 	start.c2 = sqrtf(start.gamma2*(start.p2 / start.ro2));
 	start.c1 = sqrtf(start.gamma1*(start.p1 / start.ro1));
@@ -202,10 +203,10 @@ void Solve(START &start)
 	cout << c2c1;
 	if (start.u2 > 0 && start.u1 > 0 && start.u2 / start.c2 < 1)
 	{
-		Solve_Outflow(start);
+		Solve_Outflow(start,i);
 	}
 	if (start.u2 < 0 && start.u1 < 0 && start.u1 / start.c1 > -1)
 	{
-		Solve_Inflow(start);
+		Solve_Inflow(start,i);
 	}
 }

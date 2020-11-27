@@ -3,6 +3,7 @@
 #include "Rule_6_7_8.h"
 #include "Rule_19.h"
 #include <climits>
+
 Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 {
 	double u4 = 0;
@@ -89,7 +90,7 @@ bool Check_CONF_A(START start, Point El2, Point B)
 	}
 }
 
-TwoPoints Search_Conf_A(START &start, Point &E, Point &B)
+TwoPoints Search_Conf_A(START &start, Point &E, Point &B,int i)
 {
 
 	double p = start.p2;
@@ -120,9 +121,9 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B)
 		int c = round(p);
 		if (((c%747) == 0) && (pl2.p!=0))
 		{
-			Write("L1_1.p = " + to_string(pl2.p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt");
-			Write("cl2_1.p = " + to_string(pl2.p) + "\n" + "cl2_1.u = " + to_string(pl2.u) + "\n", "cl2_1.txt");
-            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt");
+			Write("L1_1.p = " + to_string(pl2.p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt", i);
+			Write("cl2_1.p = " + to_string(pl2.p) + "\n" + "cl2_1.u = " + to_string(pl2.u) + "\n", "cl2_1.txt", i);
+            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt", i);
 		}
 
 	}
@@ -150,9 +151,9 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B)
 			int c = round(p);
 			if (((c % 747) == 0) && (pl2.p != 0))
 			{
-				Write("L1_1.p = " + to_string(pl2.p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt");
-				Write("cl2_1.p = " + to_string(pl2.p) + "\n" + "cl2_1.u = " + to_string(pl2.u) + "\n", "cl2_1.txt");
-				Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt");
+				Write("L1_1.p = " + to_string(pl2.p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt", i);
+				Write("cl2_1.p = " + to_string(pl2.p) + "\n" + "cl2_1.u = " + to_string(pl2.u) + "\n", "cl2_1.txt", i);
+				Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt", i);
 			}
 		}
 	}
@@ -162,7 +163,7 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B)
 
 }
 
-Point Search_Conf_B(START &start, Point &El2, Point &B)
+Point Search_Conf_B(START &start, Point &El2, Point &B,int i)
 {
 	double p4 = El2.p;
 	double u4 = El2.u;
