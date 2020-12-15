@@ -7,21 +7,20 @@
 #include <list>
 void SetDefault(START *start)
 {
-	start->A2 = 10;
-	start->A1 = 5;
+    start->A2 = 10;
+    start->A1 = 5;
 
-	start->p2 = 303975;
-	start->p1 = 353975;
+    start->p2 = 303975;
+    start->p1 = 353975;
 
-	start->u2 = 150;
-	start->u1 = 170;
+    start->u2 = -150;
+    start->u1 = -170;
 
-	start->ro2 = 1.667;
-	start->ro1 = 1.667;
+    start->ro2 = 1.667;
+    start->ro1 = 1.667;
 
-	start->gamma2 = 1.4;
-	start->gamma1 = 1.4;
-
+    start->gamma2 = 1.4;
+    start->gamma1 = 1.4;
 }
 int main(int argc, char **argv)
 {

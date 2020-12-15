@@ -21,19 +21,19 @@ Point B(START start)
 	return b;
 }
 
-Point D(START start)
-{
-	double p = start.p2;
-	double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
-	while (true)
-	{
-		if (u <= start.c2) { p -= 0.1; }
-		else { break; }
-		u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
-	}
-	Point d{ p,u };
-	return d;
-}
+//Point D(START start)
+//{
+//	double p = start.p2;
+//	double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
+//	while (true)
+//	{
+//		if (u <= start.c2) { p -= 0.1; }
+//		else { break; }
+//		u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
+//	}
+//	Point d{ p,u };
+//	return d;
+//}
 
 Point E(START start)
 {

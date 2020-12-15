@@ -48,6 +48,9 @@
     <ClInclude Include="Rule_33_34_35.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Results.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

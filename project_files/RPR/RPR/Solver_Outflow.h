@@ -38,56 +38,65 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 
 bool Check_CONF_A(START start, Point El2, Point B)
 {
-	bool NEOBHODIM = false;
+    if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u <= 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 
-	bool DOSTAT = false;
+	//bool NEOBHODIM = false;
+
+	//bool DOSTAT = false;
 
 
-	double u1 = start.u1;
-	double p1 = start.p1;
-	double ro1 = start.ro1;
-	double gamma1 = start.gamma1;
-	double gamma2 = start.gamma2;
-	double c1 = start.c1;
-	//necessary
-	if (p1 < B.p)
-	{
-		if (u1 + FIi(B.p, p1, ro1, gamma1) >= 0)
-		{
-			NEOBHODIM = true;
-		}
-	}
-	else
-	{
-		if (u1 + PSIi(B.p, p1, gamma1, gamma2, c1) >= 0)
-		{
-			NEOBHODIM = true;
-		}
-	}
-	//sufficient
-	if (p1 < El2.p)
-	{
-		if (u1 + FIi(El2.p, p1, ro1, gamma1) - El2.u <= 0)
-		{
-			DOSTAT = true;
-		}
-	}
-	else
-	{
-		if (u1 + PSIi(El2.p, p1, gamma1, gamma2, c1) - El2.u <= 0)
-		{
-			DOSTAT = true;
-		}
-	}
-	//FINAL
-	if (DOSTAT && NEOBHODIM)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	//double u1 = start.u1;
+	//double p1 = start.p1;
+	//double ro1 = start.ro1;
+	//double gamma1 = start.gamma1;
+	//double gamma2 = start.gamma2;
+	//double c1 = start.c1;
+	////necessary
+	//if (p1 < B.p)
+	//{
+	//	if (u1 + FIi(B.p, p1, ro1, gamma1) >= 0)
+	//	{
+	//		NEOBHODIM = true;
+	//	}
+	//}
+	//else
+	//{
+	//	if (u1 + PSIi(B.p, p1, gamma1, gamma2, c1) >= 0)
+	//	{
+	//		NEOBHODIM = true;
+	//	}
+	//}
+	////sufficient
+	//if (p1 < El2.p)
+	//{
+	//	if (u1 + FIi(El2.p, p1, ro1, gamma1) - El2.u <= 0)
+	//	{
+	//		DOSTAT = true;
+	//	}
+	//}
+	//else
+	//{
+	//	if (u1 + PSIi(El2.p, p1, gamma1, gamma2, c1) - El2.u <= 0)
+	//	{
+	//		DOSTAT = true;
+	//	}
+	//}
+	////FINAL
+	//if (DOSTAT && NEOBHODIM)
+	//{
+	//	return true;
+	//}
+	//else
+	//{
+	//	return false;
+	//}
 }
 
 TwoPoints Search_Conf_A(START &start, Point &E, Point &B,int i)

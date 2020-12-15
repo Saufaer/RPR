@@ -159,6 +159,7 @@
     <ClInclude Include="Curves.h" />
     <ClInclude Include="Points_Inflow.h" />
     <ClInclude Include="Points_Outflow.h" />
+    <ClInclude Include="Results.h" />
     <ClInclude Include="Rule_33_34_35.h" />
     <ClInclude Include="Rule_41_42.h" />
     <ClInclude Include="Solver.h" />
