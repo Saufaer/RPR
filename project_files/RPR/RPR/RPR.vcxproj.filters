@@ -21,9 +21,6 @@
     <ClInclude Include="Solver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rule_6_7_8.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Rule_19.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -49,6 +46,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Results.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rule_6_7_8_9.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,31 @@
 #include "Points_Inflow.h"
 #include "Rule_33_34_35.h"
 #include "Rule_41_42.h"
+
+
+Point Get_from_l1(double p4, double u4, START start)
+{
+    double u5 = 0;
+    double p5 = 0;
+
+    double ro4 = start.ro1;
+    double c4quadr = C4QUADR(start.gamma1, ro4, p4);
+    double alpha = ALPHA2(start.A1, start.A2);
+    double a1 = A1(c4quadr, start.gamma1, u4);
+    double delta = DELTA(c4quadr, start.gamma1, alpha, u4);
+    
+    if (c4quadr - (u4*u4) <= 0)
+    {
+        u5 = U5_33(u4, a1, delta, start.gamma1, alpha);
+        p5 = P5(p4, u4, u5, ro4);
+    }
+    if (c4quadr - (u4*u4) > 0)
+    {
+        u5 = U5_34(u4, a1, delta, start.gamma1, alpha);
+        p5 = P5(p4, u4, u5, ro4);
+    }
+    return Point{ p5, u5 };
+}
 Point Get_H_from_l1(double p4, double u4, Point C2, Point C1, START start)
 {
 	double u5 = 0;
@@ -18,7 +43,7 @@ Point Get_H_from_l1(double p4, double u4, Point C2, Point C1, START start)
 
 		double alpha = ALPHA2(start.A1, start.A2);
 		double c4quadr = C4QUADR(start.gamma1, ro4, p4);
-		double a1 = A1(/*alpha,*/ c4quadr, start.gamma1, u4);
+		double a1 = A1(c4quadr, start.gamma1, u4);
 		double delta = DELTA(c4quadr, start.gamma1, alpha, u4);
 
 		u5 = U5_34(u4, a1, delta, start.gamma1, alpha);
@@ -44,7 +69,7 @@ Point Get_F_from_l1(double p4, double u4, Point C2, Point C1, START start)
 
 		double alpha = ALPHA2(start.A1, start.A2);
 		double c4quadr = C4QUADR(start.gamma1, ro4, p4);
-		double a1 = A1(/*alpha,*/ c4quadr, start.gamma1, u4);
+		double a1 = A1( c4quadr, start.gamma1, u4);
 		double delta = DELTA(c4quadr, start.gamma1, alpha, u4);
 
 		u5 = U5_33(u4, a1, delta, start.gamma1, alpha);
@@ -66,7 +91,7 @@ Point Get_F2_from_l1(Point F, Point C2, START start)
 	double gamma1 = start.gamma1;
 	double alpha = ALPHA2(start.A1, start.A2);
 	double c4quadr = C4QUADR(gamma1, ro4, p4);
-	double a1 = A1(/*alpha,*/ c4quadr, gamma1, u4);
+	double a1 = A1(c4quadr, gamma1, u4);
 	double delta = DELTA(c4quadr, gamma1, alpha, u4);
 
 	double M5quadr = 0;
@@ -295,7 +320,7 @@ bool Check_CONF_B2(START start, Point F2, Point C1)
 	}
 }
 
-TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1)
+TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 {
 
 	double p = start.p1;
@@ -306,58 +331,75 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1)
 
 	TwoPoints TwoPoints{ NULL, NULL };
 
-	while (true)//start down from (p1,u1)
+	while (true)//start down from (p1,u1) to C2
 	{
-		p -= 0.1;
+		p -= 1;
 		if (p <= C2.p) { break; }
 		u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);//point from L1
 
-		pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
+		//pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
+
+        pl1 = Get_from_l1(p, u, start);//point from l1
 
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 
-		if (fabs(pl1.u - uL2) <= 0.1) {
+		if (fabs(pl1.u - uL2) <= 10) {
 			IsSearch = true;
 			TwoPoints.NL1 = pl1;
 			TwoPoints.NL2 = Point{ p,u };
 			break;
 		}
 
+        /////////// Write lines
+        int c = round(p);
+        if (((c % 747) == 0) )
+        {
+            Write("L1_1.p = " + to_string(p) + "\n" + "L1_1.u = " + to_string(u) + "\n", "L1_1.txt", i);
+            Write("cl1_1.p = " + to_string(pl1.p) + "\n" + "cl1_1.u = " + to_string(pl1.u) + "\n", "cl1_1.txt", i);
+            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(uL2) + "\n", "L2_1.txt", i);
+        }
+        ///////////
+
 	}
 
-	if ((p <= C2.p) && (!IsSearch))//start up from (p1,u1)
+	if ((p <= C2.p) && (!IsSearch))//start up from (p1,u1) to C1
 	{
 		p = start.p1;
 		u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 		while (true)
 		{
-			p += 0.1;
+			p += 1;
 			if (p >= C1.p) { break; }
 			u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);//point from L1
 
-			pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
+			//pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
+            pl1 = Get_from_l1(p, u, start);//point from l1
 
 			uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 
-			if (fabs(pl1.u - uL2) <= 0.1) {
+			if (fabs(pl1.u - uL2) <= 10) {
 				IsSearch = true;
 				TwoPoints.NL1 = pl1;
 				TwoPoints.NL2 = Point{ p,u };
 				break;
 			}
-
+            /////////// Write lines
+            int c = round(p);
+            if (((c % 747) == 0))
+            {
+                Write("L1_2.p = " + to_string(p) + "\n" + "L1_2.u = " + to_string(u) + "\n", "L1_2.txt", i);
+                Write("cl1_2.p = " + to_string(pl1.p) + "\n" + "cl1_2.u = " + to_string(pl1.u) + "\n", "cl1_2.txt", i);
+                Write("L2_2.p = " + to_string(p) + "\n" + "L2_2.u = " + to_string(uL2) + "\n", "L2_2.txt", i);
+            }
+            ///////////
 		}
 	}
-
-	//std::cout << "u4=" << u << "   p4=" << p << std::endl;
-	//std::cout << "u5=" << pl1.u << "   p5=" << pl1.p << std::endl;
-	//std::cout << "uL2=" << uL2 << "   pL2=" << p << std::endl;
 
 	return TwoPoints;
 
 }
 
-Point Search_Conf_B1(START &start, Point &F, Point &B)
+Point Search_Conf_B1(START &start, Point &F, Point &B, int i)
 {
 	double p5 = F.p;
 	double u5 = F.u;
@@ -373,10 +415,20 @@ Point Search_Conf_B1(START &start, Point &F, Point &B)
 	while (true)
 	{
 
-		if (fabs(u - uL2) <= 0.1) { break; }
-		p += 0.1;
+		if (fabs(u - uL2) <= 10) { break; }
+		p += 1;
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 		u = Addict_l1(p, p5, u5, start.c1, start.gamma1, ro5);
+
+        /////////// Write lines
+        int c = round(p);
+        if (((c % 747) == 0))
+        {
+            Write("l1_1.p = " + to_string(p) + "\n" + "l1_1.u = " + to_string(u) + "\n", "l1_1.txt", i);
+            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(uL2) + "\n", "L2_1.txt", i);
+        }
+        ///////////
+
 	}
 
 	N_B = Point{ p,u };
@@ -385,7 +437,7 @@ Point Search_Conf_B1(START &start, Point &F, Point &B)
 
 }
 
-Point Search_Conf_B2(START &start, Point &F2, Point &B)
+Point Search_Conf_B2(START &start, Point &F2, Point &B, int i)
 {
 
 	double p5 = F2.p;
@@ -401,10 +453,19 @@ Point Search_Conf_B2(START &start, Point &F2, Point &B)
 
 	while (true)
 	{
-		if (fabs(u - uL2) <= 0.1) { break; }
-		p += 0.1;
+		if (fabs(u - uL2) <= 10) { break; }
+		p += 1;
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 		u = Addict_l1(p, p5, u5, start.c1, start.gamma1, ro5);
+
+        /////////// Write lines
+        int c = round(p);
+        if (((c % 747) == 0))
+        {
+            Write("l1_1.p = " + to_string(p) + "\n" + "l1_1.u = " + to_string(u) + "\n", "l1_1.txt", i);
+            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(uL2) + "\n", "L2_1.txt", i);
+        }
+        ///////////
 	}
 
 	N_B = Point{ p,u };

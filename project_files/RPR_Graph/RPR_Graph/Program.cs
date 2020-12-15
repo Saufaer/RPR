@@ -12,11 +12,16 @@ namespace RPR_Graph
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+           
+            for (int i = 0; i < args.Length; i++)
+            {
+                Application.Run(new Form1(Int32.Parse(args[i])));
+            }
         }
     }
 }

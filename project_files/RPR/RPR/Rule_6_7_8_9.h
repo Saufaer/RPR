@@ -1,6 +1,6 @@
 #include <math.h>
-#ifndef RULE_678
-#define RULE_678
+#ifndef RULE_6789
+#define RULE_6789
 
 double ALPHA1(double A1, double A2)
 {
@@ -53,14 +53,25 @@ double P4(double u4, double u5, double ro5, double p5, double alpha)
 	return p4;
 }
 //expression 8
-double U4(double a, double u5, double gamma2, double z, double dzetta)
+double U4_8(double a, double u5, double gamma2, double z, double dzetta)
 {
 	double u4 = (a - sqrt(z*dzetta)) / ((gamma2 + 1)*u5);
 	return u4;
 }
-double M4QUARD(double gamma2, double z, double dzetta, double a)
+double M4QUARD_8(double gamma2, double z, double dzetta, double a)
 {
 	double M4quadr = 1 - ((gamma2 + 1)* sqrt(z*dzetta)) / (a + gamma2 * sqrt(z*dzetta));
 	return M4quadr;
+}
+
+double U4_9(double a, double u5, double gamma2, double z, double dzetta)
+{
+    double u4 = (a + sqrt(z*dzetta)) / ((gamma2 + 1)*u5);
+    return u4;
+}
+double M4QUARD_9(double gamma2, double z, double dzetta, double a)
+{
+    double M4quadr = 1 + ((gamma2 + 1)* sqrt(z*dzetta)) / (a + gamma2 * sqrt(z*dzetta));
+    return M4quadr;
 }
 #endif

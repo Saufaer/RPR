@@ -15,10 +15,10 @@ namespace RPR_Graph
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        public Form1(int i)
         {
             InitializeComponent();
-            ReadNRun();
+            ReadNRun(i);
         }
 
         public void RunProcess(string path)
@@ -88,12 +88,10 @@ namespace RPR_Graph
 
             return String.Empty;
         }
-        void ReadNRun()
+        void ReadNRun(int i)
         {
             string path = "";
             
-            for (int i=4;i<7;i++)
-            {
                 while (chart1.Series.Count > 0) { chart1.Series.RemoveAt(0); }
                 foreach (var series in chart1.Series)
                 {
@@ -105,20 +103,9 @@ namespace RPR_Graph
                 path += i.ToString();
                 RunProcess(path);
 
-                //string[] files = Directory.GetFiles(path, ".txt");
-                //for (int j = 0; j < files.Length; j++)
-                //{
-                //    files[i] = Path.GetFileName(files[j]);
-
-                //    DrawPoints(files[i], GetUntilOrEmpty(files[i]), 45);
-                //}
 
                 path = "";
-            }
-            //DrawPoints(@"Points.txt", "Points", 45);
-            //DrawPoints(@"cl2_1.txt", "cl2_1", 15);
-            //DrawPoints(@"L2_1.txt", "L2_1", 30);
-            //DrawPoints(@"L1_1.txt", "L1_1", 100);
+
         }
 
         void DrawPoints(string file, string type, int color)
@@ -134,6 +121,10 @@ namespace RPR_Graph
                 while (sr.Peek() >= 0)
                 {
                     line = sr.ReadLine();
+                    if(type == "\\Points")
+                    {
+                        textBox2.AppendText(line + "\r\n");
+                    }
 
                     string[] words = line.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                     if(words.Length==2)

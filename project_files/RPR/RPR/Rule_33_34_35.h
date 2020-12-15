@@ -9,9 +9,9 @@ double ALPHA2(double A1, double A2)
 	return alpha;
 }
 
-double A1(/*double alpha,*/ double c4quadr, double gamma1, double u4)
+double A1( double c4quadr, double gamma1, double u4)
 {
-	double a1 = /*alpha **/ c4quadr + gamma1 * pow(u4, 2);
+	double a1 = c4quadr + gamma1 * pow(u4, 2);
 	return a1;
 }
 
