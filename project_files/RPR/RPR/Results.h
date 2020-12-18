@@ -14,19 +14,19 @@ string GetNumberFromA(START start, TwoPoints NN)//OutFlow A
     string res = "";
     if (NN.NL2.p >= start.p2 && NN.NL1.p >= start.p1)//p5 > p2 && p4 >= p1
     {
-        res = "11";
+        res = "11 S<-BTS->";
     }
     if (NN.NL2.p >= start.p2 && NN.NL1.p < start.p1)//p5 > p2 && p4 < p1
     {
-        res = "12";
+        res = "12 S<-BTR->";
     }
     if (NN.NL2.p < start.p2 && NN.NL1.p < start.p1)//p5 < p2 && p4 < p1
     {
-        res = "13";
+        res = "13 R<-BTR->";
     }
     if (NN.NL2.p < start.p2 && NN.NL1.p >= start.p1)//p5 < p2 && p4 >= p1
     {
-        res = "14";
+        res = "14 R<-BTS->";
     }
     return res;
 }
@@ -61,19 +61,19 @@ string GetNumberFromB(START start, Point El2, Point NL1, Point E)//OutFlow B
     string res = "";
     if (E.p >= start.p2 && NL1.p >= start.p1)//p5 > p2 && p3 >= p1
     {
-        res = "15";
+        res = "15 S<-BR<-TS->";
     }
     if (E.p >= start.p2 && NL1.p < start.p1)//p5 > p2 && p3 < p1
     {
-        res = "16";
+        res = "16 S<-BR<-TR->";
     }
     if (E.p < start.p2 && NL1.p < start.p1)//p5 < p2 && p3 < p1
     {
-        res = "17";
+        res = "17 R<-BR<-TR->";
     }
     if (E.p < start.p2 && NL1.p >= start.p1)//p5 < p2 && p3 >= p1
     {
-        res = "18";
+        res = "18 R<-BR<-TS->";
     }
     return res;
 }
@@ -114,19 +114,19 @@ string GetNumberFromA1(START start, TwoPoints NN)//InFlow A1
     string res = "";
     if (NN.NL1.p >= start.p2 && NN.NL2.p < start.p1)//p5 >= p2 && p4 < p1
     {
-        res = "21";
+        res = "21 S<-TBR->";
     }
     if (NN.NL1.p < start.p2 && NN.NL2.p < start.p1)//p5 < p2 && p4 < p1
     {
-        res = "22";
+        res = "22 R<-TBR->";
     }
     if (NN.NL1.p < start.p2 && NN.NL2.p >= start.p1)//p5 < p2 && p4 >= p1
     {
-        res = "23";
+        res = "23 R<-TBS->";
     }
     if (NN.NL1.p >= start.p2 && NN.NL2.p >= start.p1)//p5 >= p2 && p4 >= p1
     {
-        res = "24";
+        res = "24 S<-TBS->";
     }
     return res;
 }
@@ -160,19 +160,19 @@ string GetNumberFromB1(START start, Point NL2, Point F)//InFlow B1
     string res = "";
     if (NL2.p >= start.p2 && NL2.p < F.p)//p3 >= p2 && p3 < p5
     {
-        res = "25";
+        res = "25 S<-TR->BR->";
     }
     if (NL2.p < start.p2 && NL2.p < F.p)//p3 < p2 && p3 < p5
     {
-        res = "26";
+        res = "26 R<-TR->BR->";
     }
     if (NL2.p >= start.p2 && NL2.p >= F.p)//p3 >= p2 && p3 >= p5
     {
-        res = "27";
+        res = "27 S<-TS->BR->";
     }
     if (NL2.p < start.p2 && NL2.p >= F.p)//p3 < p2 && p3 >= p5
     {
-        res = "28";
+        res = "28 R<-TS->BR->";
     }
 
     return res;
@@ -210,19 +210,19 @@ string GetNumberFromB2(START start, Point NL2, Point F2)//InFlow B2
     string res = "";
     if (NL2.p >= start.p2 && NL2.p < F2.p)//p3 >= p2 && p3 < p5
     {
-        res = "25";
+        res = "25 S<-TR->BR->";
     }
     if (NL2.p < start.p2 && NL2.p < F2.p)//p3 < p2 && p3 < p5
     {
-        res = "26";
+        res = "26 R<-TR->BR->";
     }
     if (NL2.p >= start.p2 && NL2.p >= F2.p)//p3 >= p2 && p3 >= p5
     {
-        res = "27";
+        res = "27 S<-TS->BR->";
     }
     if (NL2.p < start.p2 && NL2.p >= F2.p)//p3 < p2 && p3 >= p5
     {
-        res = "28";
+        res = "28 R<-TS->BR->";
     }
 
     return res;
@@ -231,7 +231,7 @@ string GetNumberFromB2(START start, Point NL2, Point F2)//InFlow B2
 string GetConfigB2(START start, Point C2, Point NL2, Point F2)//InFlow B2
 {
     string res = "";
-    res += "\nCONFIG B2\n";
+    res += "\nCONFIG B2 - SUBSONIC\n";
     res += "CONFIG NUMBER: " + GetNumberFromB2(start, NL2, F2) + "\n";
     res += "C2_4.p4=" + to_string(C2.p) + "\n";
     res += "C2_4.u4=" + to_string(C2.u) + "\n";
