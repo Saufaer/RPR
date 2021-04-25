@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 	remove("L1_2.txt");*/
 
 	typedef std::numeric_limits< double > dbl;
-	cout.precision(dbl::max_digits10);
+	cout.precision(10);
 
 	START start;
 
@@ -76,7 +76,10 @@ int main(int argc, char **argv)
 		int c = 1;
 		while (getline(fin, line))
 		{
-			cout << endl << "INPUT:";
+            string res = "\n\nINPUT:";
+            cout << res;
+            
+
 			list<double> vars;
 			for (int i = 0; i < line.length(); i++)
 			{
@@ -84,12 +87,14 @@ int main(int argc, char **argv)
 				var += line[i];
 				if (line[i + 1] == ' ' || line[i + 1] == ';' || i + 1 == line.length())
 				{
+                    res += to_string(std::atof(var.c_str())) + line[i + 1];
+                    
 					cout << std::atof(var.c_str()) << line[i + 1];
 					vars.push_back(std::atof(var.c_str()));
 					var = "";
 				}
 			}
-
+            res += "";
 			auto iter = vars.begin();
 
 			start.A2 = *iter++;
@@ -110,6 +115,7 @@ int main(int argc, char **argv)
 			system(comm.c_str());
 			comm = "mkdir " + to_string(c);
 			system(comm.c_str());
+            Write(res, "Points.txt", c);
 			Solve(start, c);
 			c++;
 		}
