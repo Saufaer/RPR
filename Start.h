@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <fstream>
 struct Point
 {
 	double p;
@@ -31,3 +33,12 @@ struct START
 	double gamma2;
 	double gamma1;
 };
+
+void Write(string str, string file, int i)
+{
+	ofstream output;
+	
+	output.open(to_string(i)+"\\"+file,ios_base::app);
+	output << str;
+	output.close();
+}
