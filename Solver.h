@@ -54,6 +54,9 @@ void Outflow_supercsonic(START  &start, int i)
     Point Es(Es(start));
     res += "\nEs.p = " + to_string(Es.p) + "\nEs.u = " + to_string(Es.u) + "\n";
 
+    Point Esl2 = Get_from_l2(Es.p, Es.u, E, B, start);
+    res += "\nEsl2.p = " + to_string(Esl2.p) + "\nEsl2.u = " + to_string(Esl2.u) + "\n";
+
 
     if (Check_CONF_CB(start, El2, Es, B))
     {
@@ -69,18 +72,32 @@ void Outflow_supercsonic(START  &start, int i)
         cout << res;
         Write(res, "Points.txt", i);
     }
-    else if (Check_CONF_CC(start, El2, Es, B))
+    else if (Check_CONF_CC(start, El2, Esl2, Es, B))
     {
 
-        if (Check_CONF_CC1(start, El2, Es, B))
+        if (Check_CONF_CC1(start, El2, Esl2, E, B))
         {
-
+            TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
+            //res += GetConfigCA(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
         }
 
-        if (Check_CONF_CC2(start, El2, Es, B))
+        else if (Check_CONF_CC2(start, E, B))
         {
-
+            TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
+            //res += GetConfigCA(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
         }
+        else
+        {
+            TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
+            //res += GetConfigCA(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+        }
+
     }
 }
 

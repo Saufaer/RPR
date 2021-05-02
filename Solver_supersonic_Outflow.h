@@ -17,6 +17,15 @@ bool Check_CONF_CA(START start, Point El2, Point Es, Point B)
     {
         return false;
     }
+
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
@@ -26,7 +35,7 @@ TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
 
 bool Check_CONF_CB(START start, Point El2, Point Es, Point B)
 {
-    if ((Es.p - El2.p) <= 0.0001 && (Es.u - El2.u) <= 0.0001)
+    if (fabs(Es.p - El2.p) <= 0.001 && fabs(Es.u - El2.u) <= 0.001)
     {
         return true;
     }
@@ -42,9 +51,19 @@ Point Search_Conf_CB(START &start, Point &El2, Point &B, int i)//supersonic
 }
   
 
-bool Check_CONF_CC(START start, Point El2, Point Es, Point B)
+bool Check_CONF_CC(START start, Point El2, Point Esl2,  Point Es, Point B)
 {
     if ((Es.p > El2.p) && (Es.u < El2.u))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, Esl2))
     {
         return true;
     }
@@ -146,9 +165,18 @@ TwoPoints Search_Conf_CC(START &start, Point &E, Point &Es, Point &B, int i)//su
 
 }
 
-bool Check_CONF_CC1(START start, Point El2, Point Es, Point B)
+bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point B)
 {
-    if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u > 0)
+    if (fabs(start.u2 - E.u) <= 0.001 && fabs(start.p2 - E.p) <= 0.001)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, Esl2))
     {
         return true;
     }
@@ -157,9 +185,108 @@ bool Check_CONF_CC1(START start, Point El2, Point Es, Point B)
         return false;
     }
 }
-bool Check_CONF_CC2(START start, Point El2, Point Es, Point B)
+
+TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//supersonic
 {
-    if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u > 0)
+    // is true for CC12:
+    E.u = start.u2;
+    E.p = start.p2;
+
+    // E'(p2',u2')
+    Point El2 = Get_from_l2(E.p, E.u, E, B, start);
+
+
+
+    double p = start.p2;
+    double u = L2(p, El2.u, El2.p, start.ro2, start.gamma2, start.c2);// use El2 
+    Point pl2{ 0,0 };
+    double uL1 = 0;
+    bool IsSearch = false;
+
+    TwoPoints TwoPoints{ NULL, NULL };
+
+    while (true)//start down from E(p2,u2) to Es
+    {
+
+        p += 0.1;
+        if (p >= Es.p) { break; }
+        u = L2(p, El2.u, El2.p, start.ro2, start.gamma2, start.c2);//point from L2
+
+        pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+        uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
+
+        if (fabs(pl2.u - uL1) <= 1) {
+            IsSearch = true;
+            TwoPoints.NL1 = pl2;
+
+            TwoPoints.NL2 = Point{ p,u };
+            break;
+        }
+
+        /////////// Write lines
+        int c = round(p);
+        if (((c % 474) == 0) && (pl2.p > 0))
+        {
+            Write("L1_1.p = " + to_string(p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt", i);
+            Write("pl2_1.p = " + to_string(pl2.p) + "\n" + "pl2_1.u = " + to_string(pl2.u) + "\n", "pl2_1.txt", i);
+            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt", i);
+        }
+    }
+    if (IsSearch)
+    {
+        Write("L1_1.p = " + to_string(p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt", i);
+        Write("pl2_1.p = " + to_string(pl2.p) + "\n" + "pl2_1.u = " + to_string(pl2.u) + "\n", "pl2_1.txt", i);
+        Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt", i);
+    }
+    ////////////
+
+    if (!IsSearch)//start up from Es to E(p2,u2)
+    {
+
+        p = start.p2;
+        u = L2(p, El2.u, El2.p, start.ro2, start.gamma2, start.c2);// use El2 
+        while (true)
+        {
+            p -= 0.1;
+            if (p < Es.p) { break; } // TO point Es ! 
+            u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
+
+            pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+
+            uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
+
+            if (fabs(pl2.u - uL1) <= 1) {
+                IsSearch = true;
+                TwoPoints.NL1 = pl2;
+                TwoPoints.NL2 = Point{ p,u };
+                break;
+            }
+
+            /////////// Write lines
+            int c = round(p);
+            if (((c % 474) == 0) && (pl2.p > 0))
+            {
+                Write("L1_2.p = " + to_string(p) + "\n" + "L1_2.u = " + to_string(uL1) + "\n", "L1_2.txt", i);
+                Write("pl2_2.p = " + to_string(pl2.p) + "\n" + "pl2_2.u = " + to_string(pl2.u) + "\n", "pl2_2.txt", i);
+                Write("L2_2.p = " + to_string(p) + "\n" + "L2_2.u = " + to_string(u) + "\n", "L2_2.txt", i);
+            }
+
+        }
+        if (IsSearch)
+        {
+            Write("L1_2.p = " + to_string(p) + "\n" + "L1_2.u = " + to_string(uL1) + "\n", "L1_2.txt", i);
+            Write("pl2_2.p = " + to_string(pl2.p) + "\n" + "pl2_2.u = " + to_string(pl2.u) + "\n", "pl2_2.txt", i);
+            Write("L2_2.p = " + to_string(p) + "\n" + "L2_2.u = " + to_string(u) + "\n", "L2_2.txt", i);
+        }
+        ///////////
+    }
+    return TwoPoints;
+
+}
+
+bool Check_CONF_CC2(START start, Point E, Point B)
+{
+    if (fabs(start.u2 - E.u) <= 0.001 && fabs(start.p2 - E.p) <= 0.001)
     {
         return true;
     }
@@ -167,4 +294,32 @@ bool Check_CONF_CC2(START start, Point El2, Point Es, Point B)
     {
         return false;
     }
+
+    // is true for CC12:
+    E.u = start.u2;
+    E.p = start.p2;
+
+    // E'(p2',u2')
+    Point El2 = Get_from_l2(E.p, E.u, E, B, start);
+
+    // E*(p2*,u2*)
+    Point E2zv{ NULL };
+    double M2 = El2.u / start.c2;
+    double ps = El2.p*((1 + muiquadr(start.gamma2))*(pow(M2, 2)) - muiquadr(start.gamma2));
+    double us = El2.u - (1 - muiquadr(start.gamma2))*start.c2*(M2 - (1 / M2));
+    E2zv = Point{ ps,us };
+
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, E2zv))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+TwoPoints Search_Conf_CC2(START &start, Point &E, Point &Es, Point &B, int i)//supersonic
+{
+    return Search_Conf_CC1(start, E, Es, B, i);
 }

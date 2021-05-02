@@ -4,7 +4,67 @@
 #include "Rule_19.h"
 #include <climits>
 
+bool NEOBHODIM_Outflow(START start, Point B)
+{
+    bool NEOBHODIM = false;
 
+   bool DOSTAT = false;
+
+
+   double u1 = start.u1;
+   double p1 = start.p1;
+   double ro1 = start.ro1;
+   double gamma1 = start.gamma1;
+   double gamma2 = start.gamma2;
+   double c1 = start.c1;
+   //necessary
+   if (p1 < B.p)
+   {
+       if (u1 + FIi(B.p, p1, ro1, gamma1) >= 0)
+       {
+           NEOBHODIM = true;
+       }
+   }
+   else
+   {
+       if (u1 + PSIi(B.p, p1, gamma1, gamma2, c1) >= 0)
+       {
+           NEOBHODIM = true;
+       }
+   }
+   return NEOBHODIM;
+}
+
+bool DOSTAT_Outflow(START start, Point E_default)
+{
+    bool NEOBHODIM = false;
+
+    bool DOSTAT = false;
+
+
+    double u1 = start.u1;
+    double p1 = start.p1;
+    double ro1 = start.ro1;
+    double gamma1 = start.gamma1;
+    double gamma2 = start.gamma2;
+    double c1 = start.c1;
+    //DOSTAT
+    if (p1 < E_default.p)
+    {
+        if (u1 + FIi(E_default.p, p1, ro1, gamma1) - E_default.u >= 0)
+        {
+            DOSTAT = true;
+        }
+    }
+    else
+    {
+        if (u1 + PSIi(E_default.p, p1, gamma1, gamma2, c1) - E_default.u >= 0)
+        {
+            DOSTAT = true;
+        }
+    }
+    return DOSTAT;
+}
 
 Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 {
@@ -57,56 +117,15 @@ bool Check_CONF_A(START start, Point El2, Point B)
         return false;
     }
 
-    //bool NEOBHODIM = false;
-
-    //bool DOSTAT = false;
-
-
-    //double u1 = start.u1;
-    //double p1 = start.p1;
-    //double ro1 = start.ro1;
-    //double gamma1 = start.gamma1;
-    //double gamma2 = start.gamma2;
-    //double c1 = start.c1;
-    ////necessary
-    //if (p1 < B.p)
-    //{
-    //    if (u1 + FIi(B.p, p1, ro1, gamma1) >= 0)
-    //    {
-    //        NEOBHODIM = true;
-    //    }
-    //}
-    //else
-    //{
-    //    if (u1 + PSIi(B.p, p1, gamma1, gamma2, c1) >= 0)
-    //    {
-    //        NEOBHODIM = true;
-    //    }
-    //}
-    ////sufficient
-    //if (p1 < El2.p)
-    //{
-    //    if (u1 + FIi(El2.p, p1, ro1, gamma1) - El2.u <= 0)
-    //    {
-    //        DOSTAT = true;
-    //    }
-    //}
-    //else
-    //{
-    //    if (u1 + PSIi(El2.p, p1, gamma1, gamma2, c1) - El2.u <= 0)
-    //    {
-    //        DOSTAT = true;
-    //    }
-    //}
-    ////FINAL
-    //if (DOSTAT && NEOBHODIM)
-    //{
-    //    return true;
-    //}
-    //else
-    //{
-    //    return false;
-    //}
+    
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 bool Check_CONF_B(START start, Point El2, Point B)
 {

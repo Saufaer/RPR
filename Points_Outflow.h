@@ -73,7 +73,7 @@ Point Es(START start)
     Point es{ NULL };
     double M2 = start.u2 / start.c2;
     double ps = start.p2*((1+ muiquadr(start.gamma2))*(pow(M2,2))- muiquadr(start.gamma2));
-    double us = start.u2 - (1 - muiquadr(start.gamma2))*start.c2*(M2 - 1 / M2);
+    double us = start.u2 - (1 - muiquadr(start.gamma2))*start.c2*(M2 - (1 / M2));
     es = Point{ ps,us };
     return es;
 }
