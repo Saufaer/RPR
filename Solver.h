@@ -3,6 +3,8 @@ using namespace std;
 
 #include "Solver_subsonic_Outflow.h"
 #include "Solver_subsonic_Inflow.h"
+#include "Solver_supersonic_Outflow.h"
+#include "Solver_supersonic_Inflow.h"
 #include "Results.h"
 #include <iostream>
 #include "windows.h"
@@ -52,25 +54,28 @@ void Outflow_supercsonic(START  &start, int i)
     Point Es(Es(start));
     res += "\nEs.p = " + to_string(Es.p) + "\nEs.u = " + to_string(Es.u) + "\n";
 
-    if ((Es.p < E.p) && (Es.u > E.u))
+
+    if (Check_CONF_CA(start, El2, Es, B))
     {
-        //Check_CONF_CA(start, El2, Es, B);
+
     }
-    else if ((Es.p - E.p) <= 0.0001 && (Es.u - E.u) <= 0.0001)
+    else if (Check_CONF_CB(start, El2, Es, B))
     {
-        //Check_CONF_CB(start, El2, Es, B);
+
     }
-    else if ((Es.p > E.p) && (Es.u < E.u))
+    else if (Check_CONF_CC(start, El2, Es, B))
     {
-        //Check_CONF_CC(start, El2, Es, B);
-        //Check_CONF_CC1(start, El2, Es, B)
-        //Check_CONF_CC2(start, El2, Es, B)
+
+        if (Check_CONF_CC1(start, El2, Es, B))
+        {
+
+        }
+
+        if (Check_CONF_CC2(start, El2, Es, B))
+        {
+
+        }
     }
-
-
-
-
-
 }
 
 
