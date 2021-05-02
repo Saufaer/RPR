@@ -55,13 +55,19 @@ void Outflow_supercsonic(START  &start, int i)
     res += "\nEs.p = " + to_string(Es.p) + "\nEs.u = " + to_string(Es.u) + "\n";
 
 
-    if (Check_CONF_CA(start, El2, Es, B))
+    if (Check_CONF_CB(start, El2, Es, B))
     {
-
+        Point NL1 = Search_Conf_CB(start, El2, B, i);
+        //res += GetConfigCB(start, El2, NL1, E);
+        cout << res;
+        Write(res, "Points.txt", i);
     }
-    else if (Check_CONF_CB(start, El2, Es, B))
+    else if (Check_CONF_CA(start, El2, Es, B))
     {
-
+        TwoPoints NN = Search_Conf_CA(start, E, B, i);
+        //res += GetConfigCA(start, NN);
+        cout << res;
+        Write(res, "Points.txt", i);
     }
     else if (Check_CONF_CC(start, El2, Es, B))
     {
