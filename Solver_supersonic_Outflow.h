@@ -74,7 +74,7 @@ bool Check_CONF_CC(START start, Point El2, Point Esl2,  Point Es, Point B)
 
 TwoPoints Search_Conf_CC(START &start, Point &E, Point &Es, Point &B, int i)//supersonic
 {
-    double p = start.p2;
+    double p = Es.p;
     double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
     Point pl2{ 0,0 };
     double uL1 = 0;
@@ -82,7 +82,7 @@ TwoPoints Search_Conf_CC(START &start, Point &E, Point &Es, Point &B, int i)//su
 
     TwoPoints TwoPoints{ NULL, NULL };
 
-    while (true)//start down from (p2,u2) to B
+    while (true)//start down from Es to B
     {
 
         p += 0.1;
@@ -117,10 +117,10 @@ TwoPoints Search_Conf_CC(START &start, Point &E, Point &Es, Point &B, int i)//su
     }
     //////////
 
-    if (!IsSearch)//start up from (p2,u2) to Es
+    if (!IsSearch)//start up from B to Es
     {
 
-        p = start.p2;
+        p = B.p;
         u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
         while (true)
         {
@@ -227,7 +227,7 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
             IsSearch = true;
             TwoPoints.NL1 = pl2;
 
-            TwoPoints.NL2 = Point{ p,u };
+            TwoPoints.NL2 = Point{ El2.p,El2.u }; // use El2 for result (p4,u4)
             break;
         }
 
@@ -266,7 +266,7 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
             if (fabs(pl2.u - uL1) <= 1) {
                 IsSearch = true;
                 TwoPoints.NL1 = pl2;
-                TwoPoints.NL2 = Point{ p,u };
+                TwoPoints.NL2 = Point{ El2.p,El2.u }; // use El2 for result (p4,u4)
                 break;
             }
 
