@@ -9,7 +9,7 @@
 
 bool Check_CONF_CA(START start, Point El2, Point Es, Point B)
 {
-    if ((Es.p < El2.p) && (Es.u > El2.u))
+    if ((Es.p - El2.p < -0.01) && (Es.u - El2.u > 0.01))
     {
         return true;
     }
@@ -49,11 +49,10 @@ Point Search_Conf_CB(START &start, Point &El2, Point &B, int i)//supersonic
 {
     return Search_Conf_B(start, El2, B, i);
 }
-  
 
 bool Check_CONF_CC(START start, Point El2, Point Esl2,  Point Es, Point B)
 {
-    if ((Es.p > El2.p) && (Es.u < El2.u))
+    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
     {
         return true;
     }
@@ -165,8 +164,17 @@ TwoPoints Search_Conf_CC(START &start, Point &E, Point &Es, Point &B, int i)//su
 
 }
 
-bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point B)
+bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point Es, Point B)
 {
+    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
     if (fabs(start.u2 - E.u) <= 0.001 && fabs(start.p2 - E.p) <= 0.001)
     {
         return true;
@@ -284,8 +292,17 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
 
 }
 
-bool Check_CONF_CC2(START start, Point E, Point B)
+bool Check_CONF_CC2(START start, Point El2, Point E, Point Es, Point B)
 {
+    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
     if (fabs(start.u2 - E.u) <= 0.001 && fabs(start.p2 - E.p) <= 0.001)
     {
         return true;
@@ -300,7 +317,7 @@ bool Check_CONF_CC2(START start, Point E, Point B)
     E.p = start.p2;
 
     // E'(p2',u2')
-    Point El2 = Get_from_l2(E.p, E.u, E, B, start);
+    El2 = Get_from_l2(E.p, E.u, E, B, start);
 
     // E*(p2*,u2*)
     Point E2zv{ NULL };

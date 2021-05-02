@@ -57,47 +57,41 @@ void Outflow_supercsonic(START  &start, int i)
     Point Esl2 = Get_from_l2(Es.p, Es.u, E, B, start);
     res += "\nEsl2.p = " + to_string(Esl2.p) + "\nEsl2.u = " + to_string(Esl2.u) + "\n";
 
-
-    if (Check_CONF_CB(start, El2, Es, B))
+    if (Check_CONF_CA(start, El2, Es, B))
+    {
+    TwoPoints NN = Search_Conf_CA(start, E, B, i);
+    res += GetConfigCA(start, NN);
+    cout << res;
+    Write(res, "Points.txt", i);
+    }
+    else if (Check_CONF_CB(start, El2, Es, B))
     {
         Point NL1 = Search_Conf_CB(start, El2, B, i);
-        //res += GetConfigCB(start, El2, NL1, E);
-        cout << res;
-        Write(res, "Points.txt", i);
-    }
-    else if (Check_CONF_CA(start, El2, Es, B))
-    {
-        TwoPoints NN = Search_Conf_CA(start, E, B, i);
-        //res += GetConfigCA(start, NN);
+        res += GetConfigCB(start, El2, NL1, E);
         cout << res;
         Write(res, "Points.txt", i);
     }
     else if (Check_CONF_CC(start, El2, Esl2, Es, B))
     {
+        TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
+        //res += GetConfigCC(start, NN);
+        cout << res;
+        Write(res, "Points.txt", i);
+    }
+    else if (Check_CONF_CC1(start, El2, Esl2, E, Es, B))
+    {
+        TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
+        //res += GetConfigCC1(start, NN);
+        cout << res;
+        Write(res, "Points.txt", i);
+    }
 
-        if (Check_CONF_CC1(start, El2, Esl2, E, B))
-        {
-            TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
-            //res += GetConfigCA(start, NN);
-            cout << res;
-            Write(res, "Points.txt", i);
-        }
-
-        else if (Check_CONF_CC2(start, E, B))
-        {
-            TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
-            //res += GetConfigCA(start, NN);
-            cout << res;
-            Write(res, "Points.txt", i);
-        }
-        else
-        {
-            TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
-            //res += GetConfigCA(start, NN);
-            cout << res;
-            Write(res, "Points.txt", i);
-        }
-
+    else if (Check_CONF_CC2(start, El2, E, Es, B))
+    {
+        TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
+        //res += GetConfigCC2(start, NN);
+        cout << res;
+        Write(res, "Points.txt", i);
     }
 }
 
