@@ -255,11 +255,11 @@ string GetConfigCC1(START start, TwoPoints NN)//OutFlow CC1
     res += "NL1_4.p4 =" + to_string(NN.NL1.p) + "\n";
     res += "NL1_4.u4 =" + to_string(NN.NL1.u) + "\n";
     res += "\n";
+    res += "NL1_3.p3' =" + to_string(NN.NL1.p) + "\n";
+    res += "NL1_3.u3' =" + to_string(NN.NL1.u) + "\n";
+    res += "\n";
     res += "NL1_3.p3 =" + to_string(NN.NL1.p) + "\n";
     res += "NL1_3.u3 =" + to_string(NN.NL1.u) + "\n";
-    res += "\n";
-    res += "NL2_5.p5 =" + to_string(NN.NL2.p) + "\n";
-    res += "NL2_5.u5 =" + to_string(NN.NL2.u) + "\n";
     res += "\n";
     res += "1.p1 =" + to_string(start.p1) + "\n";
     res += "1.u1 =" + to_string(start.u1) + "\n";
