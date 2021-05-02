@@ -1,11 +1,11 @@
 ﻿  main.cpp
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver_outflow.h(154): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver_outflow.h(193): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver_outflow.h(236): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver_inflow.h(354): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver_inflow.h(387): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver_inflow.h(424): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver_inflow.h(462): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver.h(88): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\учёба 2019-2020\нир_2019\распад разрыва\project_rpr\r\rpr\project_files\rpr\rpr\solver.h(89): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  RPR.vcxproj -> D:\Учёба 2019-2020\НИР_2019\Распад разрыва\Project_RPR\r\RPR\project_files\RPR\x64\Debug\RPR.exe
+d:\учёба 2021\диплом\rpr\solver_subsonic_outflow.h(154): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\учёба 2021\диплом\rpr\solver_subsonic_outflow.h(193): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\учёба 2021\диплом\rpr\solver_subsonic_outflow.h(236): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\учёба 2021\диплом\rpr\solver_subsonic_inflow.h(354): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\учёба 2021\диплом\rpr\solver_subsonic_inflow.h(387): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\учёба 2021\диплом\rpr\solver_subsonic_inflow.h(424): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\учёба 2021\диплом\rpr\solver_subsonic_inflow.h(462): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\учёба 2021\диплом\rpr\solver.h(171): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\учёба 2021\диплом\rpr\solver.h(172): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  RPR.vcxproj -> D:\Учёба 2021\Диплом\RPR\project_files\RPR\x64\Debug\RPR.exe

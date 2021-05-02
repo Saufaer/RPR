@@ -15,46 +15,69 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Curves.h">
+    <ClInclude Include="..\..\..\Curves.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solver.h">
+    <ClInclude Include="..\..\..\Points_Inflow.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rule_19.h">
+    <ClInclude Include="..\..\..\Points_Outflow.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Points_Outflow.h">
+    <ClInclude Include="..\..\..\Results.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Start.h">
+    <ClInclude Include="..\..\..\Rule_6_7_8.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solver_Outflow.h">
+    <ClInclude Include="..\..\..\Rule_6_7_8_9.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Points_Inflow.h">
+    <ClInclude Include="..\..\..\Rule_19.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solver_Inflow.h">
+    <ClInclude Include="..\..\..\Rule_22.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rule_41_42.h">
+    <ClInclude Include="..\..\..\Rule_33_34_35.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rule_33_34_35.h">
+    <ClInclude Include="..\..\..\Rule_41_42.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Results.h">
+    <ClInclude Include="..\..\..\Solver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rule_6_7_8_9.h">
+    <ClInclude Include="..\..\..\Solver_Inflow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver_Outflow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver_subsonic_Inflow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver_subsonic_Outflow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver_supersonic_Inflow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver_supersonic_Outflow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Start.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="..\..\..\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\README.md">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

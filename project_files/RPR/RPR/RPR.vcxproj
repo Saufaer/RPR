@@ -18,6 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Curves.h" />
+    <ClInclude Include="..\..\..\Points_Inflow.h" />
+    <ClInclude Include="..\..\..\Points_Outflow.h" />
+    <ClInclude Include="..\..\..\Results.h" />
+    <ClInclude Include="..\..\..\Rule_19.h" />
+    <ClInclude Include="..\..\..\Rule_22.h" />
+    <ClInclude Include="..\..\..\Rule_33_34_35.h" />
+    <ClInclude Include="..\..\..\Rule_41_42.h" />
+    <ClInclude Include="..\..\..\Rule_6_7_8.h" />
+    <ClInclude Include="..\..\..\Rule_6_7_8_9.h" />
+    <ClInclude Include="..\..\..\Solver.h" />
+    <ClInclude Include="..\..\..\Solver_Inflow.h" />
+    <ClInclude Include="..\..\..\Solver_Outflow.h" />
+    <ClInclude Include="..\..\..\Solver_subsonic_Inflow.h" />
+    <ClInclude Include="..\..\..\Solver_subsonic_Outflow.h" />
+    <ClInclude Include="..\..\..\Solver_supersonic_Inflow.h" />
+    <ClInclude Include="..\..\..\Solver_supersonic_Outflow.h" />
+    <ClInclude Include="..\..\..\Start.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\README.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5AFBE5B8-50A4-4E30-9996-1D1FCDE9CE22}</ProjectGuid>
@@ -152,23 +178,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Curves.h" />
-    <ClInclude Include="Points_Inflow.h" />
-    <ClInclude Include="Points_Outflow.h" />
-    <ClInclude Include="Results.h" />
-    <ClInclude Include="Rule_33_34_35.h" />
-    <ClInclude Include="Rule_41_42.h" />
-    <ClInclude Include="Solver.h" />
-    <ClInclude Include="Rule_19.h" />
-    <ClInclude Include="Rule_6_7_8_9.h" />
-    <ClInclude Include="Solver_Inflow.h" />
-    <ClInclude Include="Solver_Outflow.h" />
-    <ClInclude Include="Start.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
