@@ -235,11 +235,11 @@ string GetConfigCC(START start, TwoPoints NN)//OutFlow CC
 string GetNumberFromCC1(START start, TwoPoints NN)//OutFlow CC1
 {
     string res = "";
-    if (NN.NL1.p >= NN.NL2.p && NN.NL1.p >= start.p1)//p3 <= p4 && p3 >= p1
+    if (NN.NL1.p <= NN.NL2.p && NN.NL1.p >= start.p1)//p3 <= p4 && p3 >= p1
     {
         res = "1: BR<-TS->";
     }
-    if (NN.NL1.p >= NN.NL2.p && NN.NL1.p < start.p1)//p3 <= p4 && p3 <= p1
+    if (NN.NL1.p <= NN.NL2.p && NN.NL1.p < start.p1)//p3 <= p4 && p3 < p1
     {
         res = "2: BR<-TR->";
     }
@@ -249,11 +249,11 @@ string GetConfigCC1(START start, TwoPoints NN)//OutFlow CC1
 {
     string res = "";
 
-    res += "\nCONFIG CA - SUPERSONIC\n";
+    res += "\nCONFIG CC1 - SUPERSONIC\n";
     res += "CONFIG NUMBER: " + GetNumberFromCC1(start, NN) + "\n";
     res += "\n";
-    res += "NL1_4.p4 =" + to_string(NN.NL1.p) + "\n";
-    res += "NL1_4.u4 =" + to_string(NN.NL1.u) + "\n";
+    res += "NL1_4.p4 =" + to_string(NN.NL2.p) + "\n";
+    res += "NL1_4.u4 =" + to_string(NN.NL2.u) + "\n";
     res += "\n";
     res += "NL1_3.p3' =" + to_string(NN.NL1.p) + "\n";
     res += "NL1_3.u3' =" + to_string(NN.NL1.u) + "\n";
@@ -271,6 +271,44 @@ string GetConfigCC1(START start, TwoPoints NN)//OutFlow CC1
     return res;
 }
 
+string GetNumberFromCC2(START start, TwoPoints NN)//OutFlow CC2
+{
+    string res = "";
+    if (NN.NL1.p >= NN.NL2.p && NN.NL1.p >= start.p1)//p3 >= p4 && p3 >= p1
+    {
+        res = "1: BS<-TS->";
+    }
+    if (NN.NL1.p >= NN.NL2.p && NN.NL1.p < start.p1)//p3 >= p4 && p3 < p1
+    {
+        res = "2: BS<-TR->";
+    }
+    return res;
+}
+string GetConfigCC2(START start, TwoPoints NN)//OutFlow CC2
+{
+    string res = "";
+
+    res += "\nCONFIG CC2 - SUPERSONIC\n";
+    res += "CONFIG NUMBER: " + GetNumberFromCC2(start, NN) + "\n";
+    res += "\n";
+    res += "NL1_4.p4 =" + to_string(NN.NL2.p) + "\n";
+    res += "NL1_4.u4 =" + to_string(NN.NL2.u) + "\n";
+    res += "\n";
+    res += "NL1_3.p3' =" + to_string(NN.NL1.p) + "\n";
+    res += "NL1_3.u3' =" + to_string(NN.NL1.u) + "\n";
+    res += "\n";
+    res += "NL1_3.p3 =" + to_string(NN.NL1.p) + "\n";
+    res += "NL1_3.u3 =" + to_string(NN.NL1.u) + "\n";
+    res += "\n";
+    res += "1.p1 =" + to_string(start.p1) + "\n";
+    res += "1.u1 =" + to_string(start.u1) + "\n";
+    res += "\n";
+    res += "2.p2 =" + to_string(start.p2) + "\n";
+    res += "2.u2 =" + to_string(start.u2) + "\n";
+    res += "\n";
+    res += "CHECK: " + to_string(Check_RES_Outflow(NN.NL2, NN.NL1));
+    return res;
+}
 /////////////////////////////////////////////////////////////////////////////////////////        InFlow
 
 string GetNumberFromA1(START start, TwoPoints NN)//InFlow A1
