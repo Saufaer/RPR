@@ -151,13 +151,11 @@ void Inflow_supersonic(START  &start, int i)
     res += "\n\nC1.p = " + to_string(C1.p) + "\nC1.u = " + to_string(C1.u) + "\n";
     Point C2(C2(start));
     res += "\nC2.p = " + to_string(C2.p) + "\nC2.u = " + to_string(C2.u) + "\n";
-    Point H(Get_H_from_l1(C2.p, C2.u, C2, C1, start));
-    res += "\nH.p = " + to_string(H.p) + "\nH.u = " + to_string(H.u) + "\n";
     Point Cs(Cs(start));
     res += "\nCs.p = " + to_string(Cs.p) + "\nCs.u = " + to_string(Cs.u) + "\n";
     Point Hs(Get_from_l1(Cs.p,Cs.u,start));
     res += "\nHs.p = " + to_string(Hs.p) + "\nHs.u = " + to_string(Hs.u) + "\n";
-    Point C2s(Get_from_l1(start.p2, start.u2, start));
+    Point C2s(Get_from_l1(start.p1, start.u1, start));
     res += "\nC2s.p = " + to_string(C2s.p) + "\nC2s.u = " + to_string(C2s.u) + "\n";
 
     if (Check_Inflow(start, C1))
@@ -169,14 +167,14 @@ void Inflow_supersonic(START  &start, int i)
             cout << res;
             Write(res, "Points.txt", i);
         }
-        else if (Check_CONF_D1(start, H, C1, C2, Cs, C2s))
+        else if (Check_CONF_D1(start, C1, C2, Cs, C2s))
         {
             TwoPoints NN = Search_Conf_D1(start, C2, C1, Cs, C2s, i);
             res += GetConfigD1(start, NN);
             cout << res;
             Write(res, "Points.txt", i);
         }
-        else if (Check_CONF_D2(start, H, C1, C2, Cs, C2s))
+        else if (Check_CONF_D2(start, C1, C2, Cs, C2s))
         {
             TwoPoints NN = Search_Conf_D2(start, C2, C1, Cs, C2s, i);
             res += GetConfigD2(start, NN);

@@ -105,7 +105,7 @@ TwoPoints Search_Conf_DA(START &start, Point &Cs, Point &C1, int i)
     
 }
 
-bool Check_CONF_D1(START start, Point H, Point C1, Point C2, Point Cs, Point C2s)
+bool Check_CONF_D1(START start, Point C1, Point C2, Point Cs, Point C2s)
 {
     bool res1 = false;
     bool res2 = false;
@@ -214,7 +214,7 @@ TwoPoints Search_Conf_D1(START &start, Point &C2, Point &C1, Point &Cs,  Point C
     return TwoPoints;
 }
 
-bool Check_CONF_D2(START start, Point H, Point C1, Point C2, Point Cs, Point C2s)
+bool Check_CONF_D2(START start, Point C1, Point C2, Point Cs, Point C2s)
 {
     bool res1 = false;
     bool res2 = false;
