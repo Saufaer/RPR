@@ -155,46 +155,34 @@ void Inflow_supersonic(START  &start, int i)
     res += "\nH.p = " + to_string(H.p) + "\nH.u = " + to_string(H.u) + "\n";
     Point Cs(Cs(start));
     res += "\nCs.p = " + to_string(Cs.p) + "\nCs.u = " + to_string(Cs.u) + "\n";
-    Point Csl1(Get_from_l1(Cs.p,Cs.u,start));
-    res += "\nCsl1.p = " + to_string(Csl1.p) + "\nCsl1.u = " + to_string(Csl1.u) + "\n";
+    Point Hs(Get_from_l1(Cs.p,Cs.u,start));
+    res += "\nHs.p = " + to_string(Hs.p) + "\nHs.u = " + to_string(Hs.u) + "\n";
+    Point C2s(Get_from_l1(start.p2, start.u2, start));
+    res += "\nC2s.p = " + to_string(C2s.p) + "\nC2s.u = " + to_string(C2s.u) + "\n";
 
     if (Check_Inflow(start, C1))
     {
-        if (Check_CONF_DA(start, H, C1, C2, Cs))
+        if (Check_CONF_DA(start, C1, C2, Cs, Hs))
         {
-            TwoPoints NN = Search_Conf_DA(start, C2, C1, i);
+            TwoPoints NN = Search_Conf_DA(start, Cs, C1, i);
             res += GetConfigDA(start, NN);
             cout << res;
             Write(res, "Points.txt", i);
         }
-        else if (Check_CONF_D1(start, H, C1, C2, Cs, Csl1))
+        else if (Check_CONF_D1(start, H, C1, C2, Cs, C2s))
         {
-
+            TwoPoints NN = Search_Conf_D1(start, C2, C1, Cs, C2s, i);
+            res += GetConfigD1(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
         }
-        //else
-        //{
-        //    Point F(Get_F_from_l1(C2.p, C2.u, C2, C1, start));
-
-        //    if (Check_CONF_B1(start, F, C1))//It is config B1
-        //    {
-        //        Point NL2 = Search_Conf_B1(start, F, C1, i);
-        //        res += GetConfigB1(start, C2, NL2, F);
-        //        cout << res;
-        //        Write(res, "Points.txt", i);
-        //    }
-        //    else
-        //    {
-        //        Point F2(Get_F2_from_l1(F, C2, start));
-
-        //        if (Check_CONF_B2(start, F2, C1))//It is config B2
-        //        {
-        //            Point NL2 = Search_Conf_B2(start, F2, C1, i);
-        //            res += GetConfigB1(start, C2, NL2, F2);
-        //            cout << res;
-        //            Write(res, "Points.txt", i);
-        //        }
-        //    }
-        //}
+        else if (Check_CONF_D2(start, H, C1, C2, Cs, C2s))
+        {
+            TwoPoints NN = Search_Conf_D2(start, C2, C1, Cs, C2s, i);
+            res += GetConfigD2(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+        }
     }
 
 }

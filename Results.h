@@ -480,7 +480,7 @@ string GetConfigDA(START start, TwoPoints NN)//InFlow DA
 {
     string res = "";
     res += "\nCONFIG DA - SUPERSONIC\n";
-    res += "CONFIG NUMBER: " + GetNumberFromA1(start, NN) + "\n";
+    res += "CONFIG NUMBER: " + GetNumberFromDA(start, NN) + "\n";
     res += "\n";
     res += "NL2_4.p4=" + to_string(NN.NL2.p) + "\n";
     res += "NL2_4.u4=" + to_string(NN.NL2.u) + "\n";
@@ -490,6 +490,84 @@ string GetConfigDA(START start, TwoPoints NN)//InFlow DA
     res += "\n";
     res += "NL1_5.p5=" + to_string(NN.NL1.p) + "\n";
     res += "NL1_5.u5=" + to_string(NN.NL1.u) + "\n";
+    res += "\n";
+    res += "1.p1=" + to_string(start.p1) + "\n";
+    res += "1.u1=" + to_string(start.u1) + "\n";
+    res += "\n";
+    res += "2.p2=" + to_string(start.p2) + "\n";
+    res += "2.u2=" + to_string(start.u2) + "\n";
+    res += "\n";
+    res += "CHECK: " + to_string(Check_RES_Inflow_A(NN.NL2, NN.NL1));
+    return res;
+}
+
+string GetNumberFromD1(START start, TwoPoints NN)//InFlow D1
+{
+    string res = "";
+    if (NN.NL1.p < start.p2 && NN.NL1.p <= NN.NL2.p)//p3 < p2 && p3 <= p5
+    {
+        res = "1: S<-TR->B";
+    }
+    if (NN.NL1.p >= start.p2 && NN.NL1.p <= NN.NL2.p)//p3 >= p2 && p3 <= p5
+    {
+        res = "2: R<-TR->B";
+    }
+    return res;
+}
+
+string GetConfigD1(START start, TwoPoints NN)//InFlow D1
+{
+    string res = "";
+    res += "\nCONFIG D1 - SUPERSONIC\n";
+    res += "CONFIG NUMBER: " + GetNumberFromD1(start, NN) + "\n";
+    res += "\n";
+    res += "NL2_4.p5=" + to_string(NN.NL2.p) + "\n";
+    res += "NL2_4.u5=" + to_string(NN.NL2.u) + "\n";
+    res += "\n";
+    res += "NL1_3.p3=" + to_string(NN.NL1.p) + "\n";
+    res += "NL1_3.u3=" + to_string(NN.NL1.u) + "\n";
+    res += "\n";
+    res += "NL1_5.p3'=" + to_string(NN.NL1.p) + "\n";
+    res += "NL1_5.u3'=" + to_string(NN.NL1.u) + "\n";
+    res += "\n";
+    res += "1.p1=" + to_string(start.p1) + "\n";
+    res += "1.u1=" + to_string(start.u1) + "\n";
+    res += "\n";
+    res += "2.p2=" + to_string(start.p2) + "\n";
+    res += "2.u2=" + to_string(start.u2) + "\n";
+    res += "\n";
+    res += "CHECK: " + to_string(Check_RES_Inflow_A(NN.NL2, NN.NL1));
+    return res;
+}
+
+string GetNumberFromD2(START start, TwoPoints NN)//InFlow D2
+{
+    string res = "";
+    if (NN.NL1.p < start.p2 && NN.NL1.p >= NN.NL2.p)//p3 < p2 && p3 >= p5
+    {
+        res = "1: S<-TS->B";
+    }
+    if (NN.NL1.p >= start.p2 && NN.NL1.p >= NN.NL2.p)//p3 >= p2 && p3 >= p5
+    {
+        res = "2: R<-TS->RB";
+    }
+    return res;
+}
+
+string GetConfigD2(START start, TwoPoints NN)//InFlow D2
+{
+    string res = "";
+    res += "\nCONFIG D2 - SUPERSONIC\n";
+    res += "CONFIG NUMBER: " + GetNumberFromD2(start, NN) + "\n";
+    res += "\n";
+    res += "NL2_4.p5=" + to_string(NN.NL2.p) + "\n";
+    res += "NL2_4.u5=" + to_string(NN.NL2.u) + "\n";
+    res += "\n";
+    res += "NL1_3.p3=" + to_string(NN.NL1.p) + "\n";
+    res += "NL1_3.u3=" + to_string(NN.NL1.u) + "\n";
+    res += "\n";
+    res += "NL1_5.p3'=" + to_string(NN.NL1.p) + "\n";
+    res += "NL1_5.u3'=" + to_string(NN.NL1.u) + "\n";
     res += "\n";
     res += "1.p1=" + to_string(start.p1) + "\n";
     res += "1.u1=" + to_string(start.u1) + "\n";
