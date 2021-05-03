@@ -9,16 +9,20 @@
 
 bool Check_CONF_CA(START start, Point El2, Point Es, Point B)
 {
+    bool res1 = false;
+    bool res2 = false;
+
     if ((Es.p - El2.p < -0.01) && (Es.u - El2.u > 0.01))
     {
-        return true;
-    }
-    else
-    {
-        return false;
+        res1 = true;
     }
 
     if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
+    {
+        res2 = true;
+    }
+
+    if (res1 && res2)
     {
         return true;
     }
@@ -52,17 +56,21 @@ Point Search_Conf_CB(START &start, Point &El2, Point &B, int i)//supersonic
 
 bool Check_CONF_CC(START start, Point El2, Point Esl2,  Point Es, Point B)
 {
+    bool res1 = false;
+    bool res2 = false;
+
     if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
     {
-        return true;
-    }
-    else
-    {
-        return false;
+        res1 = true;
     }
 
 
     if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, Esl2))
+    {
+        res2 = true;
+    }
+
+    if (res1 && res2)
     {
         return true;
     }
@@ -166,8 +174,26 @@ TwoPoints Search_Conf_CC(START &start, Point &E, Point &Es, Point &B, int i)//su
 
 bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point Es, Point B)
 {
+    // is true for CC12:
+    E.u = start.u2;
+    E.p = start.p2;
+    //E'(p2', u2')
+    El2 = Get_from_l2(start.u2, start.p2, E, B, start);
+
+    bool res1 = false;
+    bool res2 = false;
     if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
     {
+        res1 = true;
+    }
+
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
+    {
+        res2 = true;
+    }
+
+    if (res1 && res2)
+    {
         return true;
     }
     else
@@ -175,23 +201,6 @@ bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point Es, Point
         return false;
     }
 
-    if (fabs(start.u2 - E.u) <= 0.001 && fabs(start.p2 - E.p) <= 0.001)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-
-    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, Esl2))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
 }
 
 TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//supersonic
@@ -201,9 +210,7 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
     E.p = start.p2;
 
     // E'(p2',u2')
-    Point El2 = Get_from_l2(E.p, E.u, E, B, start);
-
-
+    Point El2 = Get_from_l2(start.u2, start.p2, E, B, start);
 
     double p = start.p2;
     double u = L2(p, El2.u, El2.p, start.ro2, start.gamma2, start.c2);// use El2 
@@ -294,30 +301,19 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
 
 bool Check_CONF_CC2(START start, Point El2, Point E, Point Es, Point B)
 {
-    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-
-    if (fabs(start.u2 - E.u) <= 0.001 && fabs(start.p2 - E.p) <= 0.001)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-
     // is true for CC12:
     E.u = start.u2;
     E.p = start.p2;
 
     // E'(p2',u2')
-    El2 = Get_from_l2(E.p, E.u, E, B, start);
+    El2 = Get_from_l2(start.u2, start.p2, E, B, start);
+
+    bool res1 = false;
+    bool res2 = false;
+    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
+    {
+        res1 = true;
+    }
 
     // E*(p2*,u2*)
     Point E2zv{ NULL };
@@ -327,6 +323,10 @@ bool Check_CONF_CC2(START start, Point El2, Point E, Point Es, Point B)
     E2zv = Point{ ps,us };
 
     if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, E2zv))
+    {
+        res2 = true;
+    }
+    if (res1 && res2)
     {
         return true;
     }

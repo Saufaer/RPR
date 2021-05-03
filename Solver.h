@@ -153,8 +153,50 @@ void Inflow_supersonic(START  &start, int i)
     res += "\nC2.p = " + to_string(C2.p) + "\nC2.u = " + to_string(C2.u) + "\n";
     Point H(Get_H_from_l1(C2.p, C2.u, C2, C1, start));
     res += "\nH.p = " + to_string(H.p) + "\nH.u = " + to_string(H.u) + "\n";
+    Point Cs(Cs(start));
+    res += "\nCs.p = " + to_string(Cs.p) + "\nCs.u = " + to_string(Cs.u) + "\n";
+    Point Csl1(Get_from_l1(Cs.p,Cs.u,start));
+    res += "\nCsl1.p = " + to_string(Csl1.p) + "\nCsl1.u = " + to_string(Csl1.u) + "\n";
 
-    //Point Cs1 = Cs1(Get_Cs1_from_l1(C2.p, C2.u, C2, C1, start))
+    if (Check_Inflow(start, C1))
+    {
+        if (Check_CONF_DA(start, H, C1, C2, Cs))
+        {
+            TwoPoints NN = Search_Conf_DA(start, C2, C1, i);
+            res += GetConfigDA(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+        }
+        else if (Check_CONF_D1(start, H, C1, C2, Cs, Csl1))
+        {
+
+        }
+        //else
+        //{
+        //    Point F(Get_F_from_l1(C2.p, C2.u, C2, C1, start));
+
+        //    if (Check_CONF_B1(start, F, C1))//It is config B1
+        //    {
+        //        Point NL2 = Search_Conf_B1(start, F, C1, i);
+        //        res += GetConfigB1(start, C2, NL2, F);
+        //        cout << res;
+        //        Write(res, "Points.txt", i);
+        //    }
+        //    else
+        //    {
+        //        Point F2(Get_F2_from_l1(F, C2, start));
+
+        //        if (Check_CONF_B2(start, F2, C1))//It is config B2
+        //        {
+        //            Point NL2 = Search_Conf_B2(start, F2, C1, i);
+        //            res += GetConfigB1(start, C2, NL2, F2);
+        //            cout << res;
+        //            Write(res, "Points.txt", i);
+        //        }
+        //    }
+        //}
+    }
+
 }
 
 void Solve_Outflow(START  &start, int i)

@@ -115,35 +115,6 @@ Point Get_F2_from_l1(Point F, Point C2, START start)
 
 	return Point{ p5F2, u5F2 };
 }
-bool Check_Inflow(START start, Point C1)
-{
-	bool NEOBHODIM = false;
-	double u1 = start.u1;
-	double p1 = start.p1;
-
-	double ro1 = start.ro1;
-
-	double gamma1 = start.gamma1;
-	double gamma2 = start.gamma2;
-	double c1 = start.c1;
-
-	//necessary
-	if (p1 < C1.p)
-	{
-		if (u1 + FIi(C1.p, p1, ro1, gamma1) < 0)
-		{
-			NEOBHODIM = true;
-		}
-	}
-	else
-	{
-		if (u1 + PSIi(C1.p, p1, gamma1, gamma2, c1) < 0)
-		{
-			NEOBHODIM = true;
-		}
-	}
-	return NEOBHODIM;
-}
 
 bool NEOBHODIM_Inflow(START start, Point C1)
 {
@@ -209,6 +180,11 @@ bool DOSTAT_Inflow(START start, Point H)
         }
     }
     return DOSTAT;
+}
+
+bool Check_Inflow(START start, Point C1)
+{
+    return NEOBHODIM_Inflow(start, C1);
 }
 
 bool Check_CONF_A1(START start, Point H, Point C1)

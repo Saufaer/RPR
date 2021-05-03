@@ -45,3 +45,13 @@ Point C2(START start)
 	c2 = Point{ p,u };
 	return c2;
 }
+
+Point Cs(START start)
+{
+    Point es{ NULL };
+    double M1 = start.u1 / start.c1;
+    double ps = start.p1*((1 + muiquadr(start.gamma1))*(pow(M1, 2)) - muiquadr(start.gamma1));
+    double us = start.u1 - (1 - muiquadr(start.gamma1))*start.c1*(M1 - (1 / M1));
+    es = Point{ ps,us };
+    return es;
+}

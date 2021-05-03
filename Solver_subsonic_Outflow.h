@@ -108,17 +108,21 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 
 bool Check_CONF_A(START start, Point El2, Point B)
 {
+    bool res1 = false;
+    bool res2 = false;
+
     if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u <= 0.0001)
     {
-        return true;
-    }
-    else
-    {
-        return false;
+        res1 = true;
     }
 
     
     if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
+    {
+        res2 = true;
+    }
+
+    if (res1 && res2)
     {
         return true;
     }
