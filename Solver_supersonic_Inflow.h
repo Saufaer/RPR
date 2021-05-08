@@ -21,7 +21,7 @@ bool Check_CONF_DA(START start, Point C1, Point C2, Point Cs, Point Hs)
     {
         return true;
     }
-    else
+    else 
     {
         return false;
     }

@@ -52,14 +52,14 @@ bool DOSTAT_Outflow(START start, Point E_default)
     //DOSTAT
     if (p1 < E_default.p)
     {
-        if (u1 + FIi(E_default.p, p1, ro1, gamma1) - E_default.u >= 0)
+        if (u1 + FIi(E_default.p, p1, ro1, gamma1) - E_default.u <= 0)
         {
             DOSTAT = true;
         }
     }
     else
     {
-        if (u1 + PSIi(E_default.p, p1, gamma1, gamma2, c1) - E_default.u >= 0)
+        if (u1 + PSIi(E_default.p, p1, gamma1, gamma2, c1) - E_default.u <= 0)
         {
             DOSTAT = true;
         }
@@ -76,16 +76,18 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 	{
 		p4 = B.p;
 		u4 = 0;
+       //cout << "\n\n FIRST p4" << p4;
 	}
 	//else
 	if (E.p <= p5 && p5 < B.p && B.u < u5 && u5 <= E.u)
 	{
-
+       
 		double ro5 = start.ro2;
 
 		double a = A(ALPHA1(start.A1, start.A2), C5QUADR(start.gamma2, ro5, p5), start.gamma2, u5);
 		double z = Z(ALPHA1(start.A1, start.A2), C5QUADR(start.gamma2, ro5, p5), start.gamma2, M5(C5QUADR(start.gamma2, ro5, p5), u5));
 		double dzetta = DZETTA(ALPHA1(start.A1, start.A2), C5QUADR(start.gamma2, ro5, p5), start.gamma2, M5(C5QUADR(start.gamma2, ro5, p5), u5));
+        
         if (z >= 0)
         {
             u4 = U4_8(a, u5, start.gamma2, z, dzetta);
@@ -96,13 +98,17 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
         }
 		
 		p4 = P4(u4, u5, ro5, p5, ALPHA1(start.A1, start.A2));
+       // cout << "\n\n SECOND p4" << p4;
 	}
-	if (p5 == E.p && u5 == E.u)
+    else
+	// if (fabs(p5 - E.p)<=1 && fabs(u5 - E.u)<=1)
 	{
+        
 		double r = sqrt((start.gamma2 + 1)*(2 + (start.gamma2 - 1)*pow(M5Max(ALPHA1(start.A1, start.A2), start.gamma2), 2)));
 
 		u4 = (sqrt(C5QUADR(start.gamma2, start.ro2, E.p))*r) / (start.gamma2 + 1);
 		p4 = (E.p / (start.gamma2 + 1))*(r / (r - start.gamma2*M5Max(ALPHA1(start.A1, start.A2), start.gamma2)));
+       // cout << "\n\n THIRD p4" << p4;
 	}
 	return Point{ p4, u4 };
 }
@@ -112,36 +118,42 @@ bool Check_CONF_A(START start, Point El2, Point B)
     bool res1 = false;
     bool res2 = false;
 
-    if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u <= 0.0001)
-    {
-        res1 = true;
-    }
+    //if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u <= 0.0001)
+    //{
+    //    res1 = true;
+    //}
 
     
     if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
     {
-        res2 = true;
-    }
-
-    if (res1 && res2)
-    {
         return true;
     }
     else
     {
         return false;
     }
+
+
+    //if (res1 && res2)
+    //{
+    //    return true;
+    //}
+    //else
+    //{
+    //    return false;
+    //}
 }
 bool Check_CONF_B(START start, Point El2, Point B)
 {
-    if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u > 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return true;
+    //if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u > 0)
+    //{
+    //    return true;
+    //}
+    //else
+    //{
+    //    return false;
+    //}
 }
 
 
@@ -159,14 +171,15 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B,int i)//subsonic
 	while (true)//start down from (p2,u2) to B
 	{
         
-		p += 0.1;
+		p += 0.5;
 		if (p >= B.p) { break; }
 		u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
 
 		pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+        //cout << "\n pl2.p=" << pl2.p;
 		uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-		if (fabs(u - uL1) <= 1) {
+		if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
 			IsSearch = true;
 			TwoPoints.NL1 = pl2;
 			
@@ -198,15 +211,17 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B,int i)//subsonic
 		u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 		while (true)
 		{
-			p -= 0.1;
+			p -= 0.5;
 			if (p < E.p) { break; }
 			u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
 
 			pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+            //cout << "\n pl2.p="<<pl2.p;
+
 
 			uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-			if (fabs(u - uL1) <= 1) {
+			if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
 				IsSearch = true;
 				TwoPoints.NL1 = pl2;
 				TwoPoints.NL2 = Point{ p,u };
@@ -242,8 +257,13 @@ Point Search_Conf_B(START &start, Point &El2, Point &B,int i)//sonic
 	double p4 = El2.p;
 	double u4 = El2.u;
 
-	double p = p4;
-	double u = u4;
+	//double p = p4;
+	//double u = u4;
+
+     //double p = start.p2;
+
+    double p = B.p;
+    double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 
 	Point N_B{ NULL };
 	double uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
@@ -252,7 +272,8 @@ Point Search_Conf_B(START &start, Point &El2, Point &B,int i)//sonic
 	{
 
 		if (fabs(u - uL1) <= 5) { break; }
-		p -= 1;
+        if (p <= 0) { break; }
+		p -= 0.5;
 		uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 		u = Addict_l2(p, p4, u4, start.c2, start.gamma2);
 

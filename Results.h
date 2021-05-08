@@ -146,7 +146,7 @@ string GetConfigCA(START start, TwoPoints NN)//OutFlow CA
     res += "2.p2 =" + to_string(start.p2) + "\n";
     res += "2.u2 =" + to_string(start.u2) + "\n";
     res += "\n";
-    res += "CHECK: " + to_string(Check_RES_Outflow(NN.NL2, NN.NL1));
+    res += "CHECK: " + to_string(Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1));
     return res;
 }
 
@@ -189,7 +189,7 @@ string GetConfigCB(START start, Point El2, Point NL1, Point E)//OutFlow CB
     res += "2.p2=" + to_string(start.p2) + "\n";
     res += "2.u2=" + to_string(start.u2) + "\n";
     res += "\n";
-    res += "CHECK: " + to_string(Check_RES_Outflow(E, El2));
+    res += "CHECK: " + to_string(Check_RES_Outflow_SuperSonic(E, El2));
     return res;
 }
 
@@ -210,7 +210,7 @@ string GetConfigCC(START start, TwoPoints NN)//OutFlow CC
 {
     string res = "";
 
-    res += "\nCONFIG CA - SUPERSONIC\n";
+    res += "\nCONFIG CC - SUPERSONIC\n";
     res += "CONFIG NUMBER: " + GetNumberFromCC(start, NN) + "\n";
     res += "\n";
     res += "NL1_4.p4 =" + to_string(NN.NL1.p) + "\n";
@@ -228,7 +228,7 @@ string GetConfigCC(START start, TwoPoints NN)//OutFlow CC
     res += "2.p2 =" + to_string(start.p2) + "\n";
     res += "2.u2 =" + to_string(start.u2) + "\n";
     res += "\n";
-    res += "CHECK: " + to_string(Check_RES_Outflow(NN.NL2, NN.NL1));
+    res += "CHECK: " + to_string(Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1));
     return res;
 }
 
@@ -267,7 +267,7 @@ string GetConfigCC1(START start, TwoPoints NN)//OutFlow CC1
     res += "2.p2 =" + to_string(start.p2) + "\n";
     res += "2.u2 =" + to_string(start.u2) + "\n";
     res += "\n";
-    res += "CHECK: " + to_string(Check_RES_Outflow(NN.NL2, NN.NL1));
+    res += "CHECK: " + to_string(Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1));
     return res;
 }
 
@@ -306,7 +306,7 @@ string GetConfigCC2(START start, TwoPoints NN)//OutFlow CC2
     res += "2.p2 =" + to_string(start.p2) + "\n";
     res += "2.u2 =" + to_string(start.u2) + "\n";
     res += "\n";
-    res += "CHECK: " + to_string(Check_RES_Outflow(NN.NL2, NN.NL1));
+    res += "CHECK: " + to_string(Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1));
     return res;
 }
 /////////////////////////////////////////////////////////////////////////////////////////        InFlow subsonic

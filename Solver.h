@@ -22,23 +22,41 @@ void Outflow_subsonic(START  &start, int i)
     res += "\nEl2.p = " + to_string(El2.p) + "\nEl2.u = " + to_string(El2.u) + "\n";
 
     //Write(res, "Points.txt", i);
+    bool Finish = false;
 
     if (Check_CONF_A(start, El2, B)) //subsonic
     {
+        cout << "\n\nCONF A\n\n";
         TwoPoints NN = Search_Conf_A(start, E, B, i);
-        res += GetConfigA(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
+        if (Check_RES_Outflow(NN.NL2, NN.NL1))
+        {
+            res += GetConfigA(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+            Finish = true;
+        }
+
     }
-    else if (Check_CONF_B(start, El2, B)) //sonic
+    if (!Finish)
     {
-        Point NL1 = Search_Conf_B(start, El2, B, i);
-        res += GetConfigB(start, El2, NL1, E);
-        cout << res;
-        Write(res, "Points.txt", i);
+        if (Check_CONF_B(start, El2, B)) //sonic
+        {
+            Point NL1 = Search_Conf_B(start, El2, B, i);
+            if (Check_RES_Outflow(E, El2))
+            {
+                res += GetConfigB(start, El2, NL1, E);
+                cout << res;
+                Write(res, "Points.txt", i);
+                Finish = true;
+            }
+        }
     }
-    else {
+
+    if (!Finish)
+    {
+        Write(res, "Points.txt", i);
         cout << "\n Possible configuration for Outflow not found, start conditions unconsists, skip solving";
+        cout << res;
     }
 }
 
@@ -60,44 +78,80 @@ void Outflow_supercsonic(START  &start, int i)
     Point Esl2 = Get_from_l2(Es.p, Es.u, E, B, start);
     res += "\nEsl2.p = " + to_string(Esl2.p) + "\nEsl2.u = " + to_string(Esl2.u) + "\n";
 
+    bool Finish = false;
     if (Check_CONF_CA(start, El2, Es, B))
     {
-    TwoPoints NN = Search_Conf_CA(start, E, B, i);
-    res += GetConfigCA(start, NN);
-    cout << res;
-    Write(res, "Points.txt", i);
+        TwoPoints NN = Search_Conf_CA(start, E, B, i);
+        if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+        {
+            res += GetConfigCA(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+            Finish = true;
+        }
     }
-    else if (Check_CONF_CB(start, El2, Es, B))
+    if (!Finish)
     {
-        Point NL1 = Search_Conf_CB(start, El2, B, i);
-        res += GetConfigCB(start, El2, NL1, E);
-        cout << res;
-        Write(res, "Points.txt", i);
-    }
-    else if (Check_CONF_CC(start, El2, Esl2, Es, B))
-    {
-        TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
-        //res += GetConfigCC(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
-    }
-    else if (Check_CONF_CC1(start, El2, Esl2, E, Es, B))
-    {
-        TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
-        //res += GetConfigCC1(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
-    }
+        if (Check_CONF_CB(start, El2, Es, B))
+        {
+            Point NL1 = Search_Conf_CB(start, El2, B, i);
+            if (Check_RES_Outflow_SuperSonic(E, El2))
+            {
+                res += GetConfigCB(start, El2, NL1, E);
+                cout << res;
+                Write(res, "Points.txt", i);
+                Finish = true;
+            }
 
-    else if (Check_CONF_CC2(start, El2, E, Es, B))
-    {
-        TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
-        //res += GetConfigCC2(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
+        }
     }
-    else {
+    if (!Finish)
+    {
+        if (Check_CONF_CC(start, El2, Esl2, Es, B))
+        {
+            TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
+            if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+            {
+                res += GetConfigCC(start, NN);
+                cout << res;
+                Write(res, "Points.txt", i);
+                Finish = true;
+            }
+        }
+    }
+    if (!Finish)
+    {
+        if (Check_CONF_CC1(start, El2, Esl2, E, Es, B))
+        {
+            TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
+            if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+            {
+                res += GetConfigCC1(start, NN);
+                cout << res;
+                Write(res, "Points.txt", i);
+                Finish = true;
+            }
+
+        }
+    }
+    if (!Finish)
+    {
+        if (Check_CONF_CC2(start, El2, E, Es, B))
+        {
+            TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
+            if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+            {
+                res += GetConfigCC2(start, NN);
+                cout << res;
+                Write(res, "Points.txt", i);
+                Finish = true;
+            }
+        }
+    }
+    if (!Finish) {
+        Write(res, "Points.txt", i);
         cout << "\n Possible configuration for Outflow not found, start conditions unconsists, skip solving";
+        cout << res;
     }
 }
 

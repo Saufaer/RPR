@@ -152,39 +152,6 @@ bool NEOBHODIM_Inflow(START start, Point C1)
     return NEOBHODIM;
 }
 
-bool DOSTAT_Inflow_1(START start, Point H)
-{
-
-    bool DOSTAT = false;
-
-
-    double u1 = start.u1;
-    double p1 = start.p1;
-    double u2 = start.u2;
-    double p2 = start.p2;
-    double ro1 = start.ro1;
-    double ro2 = start.ro2;
-    double gamma1 = start.gamma1;
-    double gamma2 = start.gamma2;
-    double c1 = start.c1;
-    double c2 = start.c2;
-    //DOSTAT
-    if (p2 < H.p)
-    {
-        if (u2 - FIi(H.p, p2, ro2, gamma2) - H.u < 0)
-        {
-            DOSTAT = true;
-        }
-    }
-    else
-    {
-        if (u2 - PSIi(H.p, p2, gamma2, gamma2, c2) - H.u < 0)
-        {
-            DOSTAT = true;
-        }
-    }
-    return DOSTAT;
-}
 
 bool DOSTAT_Inflow(START start, Point H)
 {
@@ -344,7 +311,7 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 
 }
 
-Point Search_Conf_B1(START &start, Point &F, Point &B, int i)
+Point Search_Conf_B1(START &start, Point &F, Point &C1, int i)
 {
 	double p5 = F.p;
 	double u5 = F.u;
@@ -361,6 +328,7 @@ Point Search_Conf_B1(START &start, Point &F, Point &B, int i)
 	{
 
 		if (fabs(u - uL2) <= 10) { break; }
+        if (p >= C1.p) { break; }
 		p += 1;
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 		u = Addict_l1(p, p5, u5, start.c1, start.gamma1, ro5);
@@ -382,7 +350,7 @@ Point Search_Conf_B1(START &start, Point &F, Point &B, int i)
 
 }
 
-Point Search_Conf_B2(START &start, Point &F2, Point &B, int i)
+Point Search_Conf_B2(START &start, Point &F2, Point &C1, int i)
 {
 
 	double p5 = F2.p;
@@ -399,6 +367,7 @@ Point Search_Conf_B2(START &start, Point &F2, Point &B, int i)
 	while (true)
 	{
 		if (fabs(u - uL2) <= 10) { break; }
+        if (p >= C1.p) { break; }
 		p += 1;
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 		u = Addict_l1(p, p5, u5, start.c1, start.gamma1, ro5);

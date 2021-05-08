@@ -5,7 +5,36 @@
 #include <climits>
 
 
+bool DOSTAT_Outflow_C(START start, Point E_default)
+{
+    bool NEOBHODIM = false;
 
+    bool DOSTAT = false;
+
+
+    double u1 = start.u1;
+    double p1 = start.p1;
+    double ro1 = start.ro1;
+    double gamma1 = start.gamma1;
+    double gamma2 = start.gamma2;
+    double c1 = start.c1;
+    //DOSTAT
+    if (p1 < E_default.p)
+    {
+        if (u1 + FIi(E_default.p, p1, ro1, gamma1) - E_default.u >= 0)
+        {
+            DOSTAT = true;
+        }
+    }
+    else
+    {
+        if (u1 + PSIi(E_default.p, p1, gamma1, gamma2, c1) - E_default.u >= 0)
+        {
+            DOSTAT = true;
+        }
+    }
+    return DOSTAT;
+}
 
 bool Check_CONF_CA(START start, Point El2, Point Es, Point B)
 {
@@ -17,7 +46,7 @@ bool Check_CONF_CA(START start, Point El2, Point Es, Point B)
         res1 = true;
     }
 
-    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow_C(start, El2))
     {
         res2 = true;
     }
@@ -39,7 +68,7 @@ TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
 
 bool Check_CONF_CB(START start, Point El2, Point Es, Point B)
 {
-    if (fabs(Es.p - El2.p) <= 0.001 && fabs(Es.u - El2.u) <= 0.001)
+    if (fabs(Es.p - El2.p) <= 1 && fabs(Es.u - El2.u) <= 1)
     {
         return true;
     }
@@ -65,7 +94,7 @@ bool Check_CONF_CC(START start, Point El2, Point Esl2,  Point Es, Point B)
     }
 
 
-    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, Esl2))
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow_C(start, Esl2))
     {
         res2 = true;
     }
@@ -178,7 +207,7 @@ bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point Es, Point
     E.u = start.u2;
     E.p = start.p2;
     //E'(p2', u2')
-    El2 = Get_from_l2(start.u2, start.p2, E, B, start);
+    El2 = Get_from_l2(start.u2, start.p2, Es, B, start);
 
     bool res1 = false;
     bool res2 = false;
@@ -187,7 +216,7 @@ bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point Es, Point
         res1 = true;
     }
 
-    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow(start, El2))
+    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow_C(start, El2))
     {
         res2 = true;
     }
@@ -224,13 +253,14 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
     {
 
         p += 0.1;
+
         if (p >= Es.p) { break; }
         u = L2(p, El2.u, El2.p, start.ro2, start.gamma2, start.c2);//point from L2
 
-        pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+        pl2 = Get_from_l2(p, u, Es, B, start);//point from l2
         uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
-
-        if (fabs(u - uL1) <= 1) {
+       // cout << "\n pl2.u = " << pl2.u;
+        if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
             IsSearch = true;
             TwoPoints.NL1 = pl2;
 
@@ -263,14 +293,14 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
         while (true)
         {
             p -= 0.1;
-            if (p < Es.p) { break; } // TO point Es ! 
+            if (p < E.p) { break; } // TO point Es ! 
             u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
 
-            pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+            pl2 = Get_from_l2(p, u, Es, B, start);//point from l2
 
             uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
-
-            if (fabs(u - uL1) <= 1) {
+            //cout << "\n fabs(u - uL1) = " << fabs(u - uL1);
+            if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
                 IsSearch = true;
                 TwoPoints.NL1 = pl2;
                 TwoPoints.NL2 = Point{ El2.p,El2.u }; // use El2 for result (p4,u4)
@@ -306,7 +336,7 @@ bool Check_CONF_CC2(START start, Point El2, Point E, Point Es, Point B)
     E.p = start.p2;
 
     // E'(p2',u2')
-    El2 = Get_from_l2(start.u2, start.p2, E, B, start);
+    El2 = Get_from_l2(start.u2, start.p2, Es, B, start);
 
     bool res1 = false;
     bool res2 = false;
@@ -339,4 +369,19 @@ bool Check_CONF_CC2(START start, Point El2, Point E, Point Es, Point B)
 TwoPoints Search_Conf_CC2(START &start, Point &E, Point &Es, Point &B, int i)//supersonic
 {
     return Search_Conf_CC1(start, E, Es, B, i);
+}
+
+bool Check_RES_Outflow_SuperSonic(Point N_L2, Point N_L1)
+{
+    double p4 = N_L1.p;
+    double u4 = N_L1.u;
+    double p5 = N_L2.p;
+    double u5 = N_L2.u;
+
+    bool correct = false;
+    if ((p4 > 0) && (p5 > 0))
+    {
+        correct = true;
+    }
+    return correct;
 }

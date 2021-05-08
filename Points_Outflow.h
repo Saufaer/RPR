@@ -41,19 +41,6 @@ Point E(START start)
 
     double M5max = M5Max(ALPHA1(start.A1, start.A2), start.gamma2);
     e = Point{ 0,0 };
-    //double p = start.p2;
-    //double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
-
-        //if (u < M5max * start.c2) {//go up from (p2,u2)
-        //    while (true)
-        //    {
-        //        if (fabs(u - M5max * start.c2) <= 1) { break; } 
-        //         p -= 0.01; 
-        //         if (u <= 0) { break; }
-        //        u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
-        //    }
-        //}
-        //else//go down from (p2,u2)
         {
 
             double p = start.p2;
@@ -64,10 +51,9 @@ Point E(START start)
             {
                 while (true) // go up from p2u2
                 {
-                    if (fabs(u - M5max * start.c2) <= 10) {
+                    if (fabs(u - M5max * start.c2) <= 0.5) {
+                        e = Point{ p,u }; 
                         break;
-                        e = Point{ p,u };
-                        return e;
                     }
                     p -= 0.1;
                     if (p <= 0) { break; }
@@ -76,16 +62,16 @@ Point E(START start)
                 }
             }
             else {
-                cout << "\n\n Search E down \n\n M5max * start.c2 = " << M5max * start.c2 << "\n\n u = " << u << "";
+                //cout << "\n\n Search E down \n\n M5max * start.c2 = " << M5max * start.c2 << "\n\n u = " << u << "";
                 p = start.p2;
                 u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
                 while (true) // go down from p2u2
                 {
                     //cout << "\n\n u = " << u << "";
-                    if (fabs(u - M5max * start.c2) <= 10) {
-                        break;
+                    if (fabs(u - M5max * start.c2) <= 0.5) {
+                        //cout << "\n\n u = " << u << "";
                         e = Point{ p,u };
-                        return e;
+                        break;
                     }
                     p += 0.1;
                     if (u <= 0) { break; }
