@@ -6,9 +6,7 @@
 
 bool NEOBHODIM_Outflow(START start, Point B)
 {
-    bool NEOBHODIM = false;
-
-   bool DOSTAT = false;
+   bool NEOBHODIM = false;
 
 
    double u1 = start.u1;
@@ -24,13 +22,16 @@ bool NEOBHODIM_Outflow(START start, Point B)
        {
            NEOBHODIM = true;
        }
-   }
-   else
-   {
-       if (u1 + PSIi(B.p, p1, gamma1, gamma2, c1) >= 0)
-       {
-           NEOBHODIM = true;
+       else {
+           cout << "\n Is not Outflow, start conditions unconsists, skip solving";
        }
+   }
+   else if (u1 + PSIi(B.p, p1, gamma1, gamma2, c1) >= 0)
+   {
+       NEOBHODIM = true;
+   }
+   else {
+       cout << "\n Is not Outflow, start conditions unconsists, skip solving";
    }
    return NEOBHODIM;
 }

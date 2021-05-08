@@ -34,6 +34,8 @@ Point C2(START start)
 		}
 		else//go up from (p1,u1)
 		{
+            p = start.p1;
+            u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 			while (true)
 			{
 				if (u < -start.c1) { p += 0.01; }
