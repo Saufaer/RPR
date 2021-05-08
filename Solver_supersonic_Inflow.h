@@ -249,3 +249,19 @@ TwoPoints Search_Conf_D2(START &start, Point &C2, Point &C1, Point &Cs, Point C2
 {
     return  Search_Conf_D1(start, C2, C1, Cs, C2s, i);
 }
+
+bool Check_RES_Inflow_SuperSonic(START start, Point N_L2, Point N_L1)
+{
+    double p4 = N_L1.p;
+    double u4 = N_L1.u;
+    double p5 = N_L2.p;
+    double u5 = N_L2.u;
+
+    bool correct = false;
+    if ((p4 > 0) && (p5 > 0))
+    {
+        correct = true;
+    }
+    return correct;
+
+}
