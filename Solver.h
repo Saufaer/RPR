@@ -112,44 +112,57 @@ void Inflow_subsonic(START  &start, int i)
     res += "\nC2.p = " + to_string(C2.p) + "\nC2.u = " + to_string(C2.u) + "\n";
     Point H(Get_H_from_l1(C2.p, C2.u, C2, C1, start));
     res += "\nH.p = " + to_string(H.p) + "\nH.u = " + to_string(H.u) + "\n";
+    Point F(Get_F_from_l1(C2.p, C2.u, C2, C1, start));
+    res += "\nF.p = " + to_string(F.p) + "\nF.u = " + to_string(F.u) + "\n";
+    Point F2(Get_F2_from_l1(F, C2, start));
+    res += "\nF2.p = " + to_string(F2.p) + "\nF2.u = " + to_string(F2.u) + "\n";
     //Write(res, "Points.txt", i);
-
+    bool Finish = false;
     if (Check_CONF_A1(start, H, C1))//It is config A1
     {
         TwoPoints NN = Search_Conf_A1(start, C2, C1, i);
-        res += GetConfigA1(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
+        if (Check_RES_Inflow(start, NN.NL2, NN.NL1))
+        {
+            res += GetConfigA1(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+            Finish = true;
+        }
     }
-    else
+    if (!Finish)
     {
-        Point F(Get_F_from_l1(C2.p, C2.u, C2, C1, start));
-
         if (Check_CONF_B1(start, F, C1))//It is config B1
         {
             Point NL2 = Search_Conf_B1(start, F, C1, i);
-            res += GetConfigB1(start, C2, NL2, F);
-            cout << res;
-            Write(res, "Points.txt", i);
-        }
-        else
-        {
-            Point F2(Get_F2_from_l1(F, C2, start));
-
-            if (Check_CONF_B2(start, F2, C1))//It is config B2
+            if (Check_RES_Inflow_B(C2, F))
             {
-                Point NL2 = Search_Conf_B2(start, F2, C1, i);
-                res += GetConfigB2(start, C2, NL2, F2);
+                res += GetConfigB1(start, C2, NL2, F);
                 cout << res;
                 Write(res, "Points.txt", i);
-            }
-            else {
-                cout << "\n Possible configuration for Inflow not found, start conditions unconsists, skip solving";
-                cout << res;
+                Finish = true;
             }
         }
     }
-    
+    if (!Finish)
+    {
+        if (Check_CONF_B2(start, F2, C1))//It is config B2
+        {
+            Point NL2 = Search_Conf_B2(start, F2, C1, i);
+            if (Check_RES_Inflow_B(C2, F2))
+            {
+                res += GetConfigB2(start, C2, NL2, F2);
+                cout << res;
+                Write(res, "Points.txt", i);
+                Finish = true;
+            }
+        }
+    }
+    if (!Finish)
+    {
+        Write(res, "Points.txt", i);
+        cout << "\n Possible configuration for Inflow not found, start conditions unconsists, skip solving";
+        cout << res;
+    }
 }
 
 void Inflow_supersonic(START  &start, int i)
@@ -166,30 +179,51 @@ void Inflow_supersonic(START  &start, int i)
     Point C2s(Get_from_l1(start.p1, start.u1, start));
     res += "\nC2s.p = " + to_string(C2s.p) + "\nC2s.u = " + to_string(C2s.u) + "\n";
 
-
+    bool Finish = false;
     if (Check_CONF_DA(start, C1, C2, Cs, Hs))
     {
         TwoPoints NN = Search_Conf_DA(start, Cs, C1, i);
-        res += GetConfigDA(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
+        if (Check_RES_Inflow(start, NN.NL2, NN.NL1))
+        {
+            res += GetConfigDA(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+            Finish = true;
+        }
     }
-    else if (Check_CONF_D1(start, C1, C2, Cs, C2s))
+    if (!Finish) 
     {
-        TwoPoints NN = Search_Conf_D1(start, C2, C1, Cs, C2s, i);
-        res += GetConfigD1(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
+        if (Check_CONF_D1(start, C1, C2, Cs, C2s))
+        {
+            TwoPoints NN = Search_Conf_D1(start, C2, C1, Cs, C2s, i);
+            if (Check_RES_Inflow(start, NN.NL2, NN.NL1))
+            {
+            res += GetConfigD1(start, NN);
+            cout << res;
+            Write(res, "Points.txt", i);
+            Finish = true;
+            }
+        }
     }
-    else if (Check_CONF_D2(start, C1, C2, Cs, C2s))
+    if (!Finish)
     {
-        TwoPoints NN = Search_Conf_D2(start, C2, C1, Cs, C2s, i);
-        res += GetConfigD2(start, NN);
-        cout << res;
-        Write(res, "Points.txt", i);
+        if (Check_CONF_D2(start, C1, C2, Cs, C2s))
+        {
+            TwoPoints NN = Search_Conf_D2(start, C2, C1, Cs, C2s, i);
+            if (Check_RES_Inflow(start, NN.NL2, NN.NL1))
+            {
+                res += GetConfigD2(start, NN);
+                cout << res;
+                Write(res, "Points.txt", i);
+                Finish = true;
+            }
+        }
     }
-    else {
+    if (!Finish)
+    {
+        Write(res, "Points.txt", i);
         cout << "\n Possible configuration for Inflow not found, start conditions unconsists, skip solving";
+        cout << res;
     }
 
 

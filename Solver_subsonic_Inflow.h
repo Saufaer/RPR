@@ -32,11 +32,11 @@ Point Get_H_from_l1(double p4, double u4, Point C2, Point C1, START start)
 	double u5 = 0;
 	double p5 = 0;
 
-	//if (fabs(p4 - C1.p)<=0.1 && fabs(u4 == C1.u)<=0.1)
-	//{
-	//	p5 = C1.p;
-	//	u5 = C1.u;
-	//}
+	if (fabs(p4 - C1.p)<=0.1 && fabs(u4 == C1.u)<=0.1)
+	{
+		p5 = C1.p;
+		u5 = C1.u;
+	}
 	if (C2.p <= p4 && p4 < C1.p && C2.u <= u4 && u4 < C1.u)
 	{
 		double ro4 = start.ro1;
@@ -46,15 +46,7 @@ Point Get_H_from_l1(double p4, double u4, Point C2, Point C1, START start)
 		double a1 = A1(c4quadr, start.gamma1, u4);
 		double delta = DELTA(c4quadr, start.gamma1, alpha, u4);
 
-        if (c4quadr - powf(u4, 2) <= 0)
-        {
-            u5 = U5_33(u4, a1, delta, start.gamma1, alpha);
-        }
-        else
-        {
-            u5 = U5_34(u4, a1, delta, start.gamma1, alpha);
-        }
-
+        u5 = U5_34(u4, a1, delta, start.gamma1, alpha);
 		p5 = P5(p4, u4, u5, ro4);
 	}
 
@@ -160,41 +152,7 @@ bool NEOBHODIM_Inflow(START start, Point C1)
     return NEOBHODIM;
 }
 
-bool DOSTAT_Inflow_A1(START start, Point H)
-{
-
-    bool DOSTAT = false;
-
-
-    double u1 = start.u1;
-    double p1 = start.p1;
-    double u2 = start.u2;
-    double p2 = start.p2;
-    double ro1 = start.ro1;
-    double ro2 = start.ro2;
-    double gamma1 = start.gamma1;
-    double gamma2 = start.gamma2;
-    double c1 = start.c1;
-    double c2 = start.c2;
-    //DOSTAT
-    if (p2 < H.p)
-    {
-        if (u2 - FIi(H.p, p2, ro2, gamma2) - H.u > 0)
-        {
-            DOSTAT = true;
-        }
-    }
-    else
-    {
-        if (u2 - PSIi(H.p, p2, gamma2, gamma2, c2) - H.u > 0)
-        {
-            DOSTAT = true;
-        }
-    }
-    return DOSTAT;
-}
-
-bool DOSTAT_Inflow(START start, Point H)
+bool DOSTAT_Inflow_1(START start, Point H)
 {
 
     bool DOSTAT = false;
@@ -228,6 +186,40 @@ bool DOSTAT_Inflow(START start, Point H)
     return DOSTAT;
 }
 
+bool DOSTAT_Inflow(START start, Point H)
+{
+
+    bool DOSTAT = false;
+
+
+    double u1 = start.u1;
+    double p1 = start.p1;
+    double u2 = start.u2;
+    double p2 = start.p2;
+    double ro1 = start.ro1;
+    double ro2 = start.ro2;
+    double gamma1 = start.gamma1;
+    double gamma2 = start.gamma2;
+    double c1 = start.c1;
+    double c2 = start.c2;
+    //DOSTAT
+    if (p2 < H.p)
+    {
+        if (u2 - FIi(H.p, p2, ro2, gamma2) - H.u > 0)
+        {
+            DOSTAT = true;
+        }
+    }
+    else
+    {
+        if (u2 - PSIi(H.p, p2, gamma2, gamma2, c2) - H.u > 0)
+        {
+            DOSTAT = true;
+        }
+    }
+    return DOSTAT;
+}
+
 bool Check_Inflow(START start, Point C1)
 {
     return NEOBHODIM_Inflow(start, C1);
@@ -236,7 +228,7 @@ bool Check_Inflow(START start, Point C1)
 bool Check_CONF_A1(START start, Point H, Point C1)
 {
 
-	if (DOSTAT_Inflow_A1(start,H) && NEOBHODIM_Inflow(start,C1))
+	if (DOSTAT_Inflow(start,H) && NEOBHODIM_Inflow(start,C1))
 	{
 		return true;
 	}
@@ -286,7 +278,7 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 	while (true)//start down from (p1,u1) to C2
 	{
 		p -= 0.5;
-		if (p <= H.p) { break; }
+		if (p <= C2.p) { break; }
 		u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);//point from L1
 
 		//pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
@@ -298,8 +290,8 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 		if (fabs(u - uL2) <= 10 || fabs(pl1.u - uL2) <= 10) {
 			IsSearch = true;
 			TwoPoints.NL1 = pl1;
-			//TwoPoints.NL2 = Point{ p,u };
-            TwoPoints.NL2 = C2;
+			TwoPoints.NL2 = Point{ p,u };
+            //TwoPoints.NL2 = C2;
 			break;
 		}
 
@@ -441,7 +433,7 @@ bool Check_RES_Inflow( START start,Point N_L2, Point N_L1)
     {
         correct = true;
     }
-    if (c4quadr - powf(u4, 2) <= 0)
+    /*if (c4quadr - powf(u4, 2) <= 0)
     {
         if ((p5 < p4) && (u5 < u4) && (abs(u5) > abs(u4)))
         {
@@ -455,8 +447,7 @@ bool Check_RES_Inflow( START start,Point N_L2, Point N_L1)
             correct = true;
         }
 
-    }
-
+    }*/
 
 	return correct;
 }
