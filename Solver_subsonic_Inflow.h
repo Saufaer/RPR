@@ -237,17 +237,17 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 
 	while (true)//start down from (p1,u1) to C2
 	{
-		p -= 1;
+		p -= 0.5;
 		if (p <= C2.p) { break; }
 		u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);//point from L1
 
-		//pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
+		pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
 
-        pl1 = Get_from_l1(p, u, start);//point from l1
+        //pl1 = Get_from_l1(p, u, start);//point from l1
 
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 
-		if (fabs(pl1.u - uL2) <= 10) {
+		if (fabs(u - uL2) <= 10) {
 			IsSearch = true;
 			TwoPoints.NL1 = pl1;
 			TwoPoints.NL2 = Point{ p,u };
@@ -272,16 +272,16 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 		u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 		while (true)
 		{
-			p += 1;
+			p += 0.5;
 			if (p >= C1.p) { break; }
 			u = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);//point from L1
 
-			//pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
-            pl1 = Get_from_l1(p, u, start);//point from l1
+			pl1 = Get_H_from_l1(p, u, C2, C1, start);//point from l1
+            //pl1 = Get_from_l1(p, u, start);//point from l1
 
 			uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 
-			if (fabs(pl1.u - uL2) <= 10) {
+			if (fabs(u - uL2) <= 10) {
 				IsSearch = true;
 				TwoPoints.NL1 = pl1;
 				TwoPoints.NL2 = Point{ p,u };

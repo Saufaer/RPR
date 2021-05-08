@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 		int c = 1;
 		while (getline(fin, line))
 		{
-            string res = "\n\nINPUT:";
+            string res = "\n\n===================================================\n\nINPUT:";
             cout << res;
             
 

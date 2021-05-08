@@ -188,6 +188,7 @@ void Inflow_supersonic(START  &start, int i)
 void Solve_Outflow(START  &start, int i)
 {
     double M2 = start.u2 / start.c2;
+    cout << "Outflow M2= " << M2;
     if (M2 <= 1)
     {
         Outflow_subsonic(start, i);
@@ -201,6 +202,7 @@ void Solve_Outflow(START  &start, int i)
 void Solve_Inflow(START  &start, int i)
 {
     double M1 = start.u1 / start.c1;
+    cout << "Inflow M1= "<< M1;
     if (M1 >= -1)
     {
         Inflow_subsonic(start, i);

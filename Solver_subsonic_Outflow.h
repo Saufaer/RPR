@@ -165,7 +165,7 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B,int i)//subsonic
 		pl2 = Get_from_l2(p, u, E, B, start);//point from l2
 		uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-		if (fabs(pl2.u - uL1) <= 1) {
+		if (fabs(u - uL1) <= 1) {
 			IsSearch = true;
 			TwoPoints.NL1 = pl2;
 			
@@ -205,7 +205,7 @@ TwoPoints Search_Conf_A(START &start, Point &E, Point &B,int i)//subsonic
 
 			uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-			if (fabs(pl2.u - uL1) <= 1) {
+			if (fabs(u - uL1) <= 1) {
 				IsSearch = true;
 				TwoPoints.NL1 = pl2;
 				TwoPoints.NL2 = Point{ p,u };
