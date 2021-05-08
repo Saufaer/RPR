@@ -75,7 +75,7 @@ void Outflow_supercsonic(START  &start, int i)
     Point Es(Es(start));
     res += "\nEs.p = " + to_string(Es.p) + "\nEs.u = " + to_string(Es.u) + "\n";
 
-    Point Esl2 = Get_from_l2(Es.p, Es.u, E, B, start);
+    Point Esl2 = Get_from_l2(Es.p, Es.u, Es, B, start);
     res += "\nEsl2.p = " + to_string(Esl2.p) + "\nEsl2.u = " + to_string(Esl2.u) + "\n";
 
     bool Finish = false;

@@ -76,10 +76,20 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 	{
 		p4 = B.p;
 		u4 = 0;
-       //cout << "\n\n FIRST p4" << p4;
+      // cout << "\n\n FIRST p4" << p4;
 	}
-	//else
-	if (E.p <= p5 && p5 < B.p && B.u < u5 && u5 <= E.u)
+	
+    if (fabs(p5 - E.p) <= 1 && fabs(u5 - E.u) <= 1)
+    {
+
+        double r = sqrt((start.gamma2 + 1)*(2 + (start.gamma2 - 1)*pow(M5Max(ALPHA1(start.A1, start.A2), start.gamma2), 2)));
+
+        u4 = (sqrt(C5QUADR(start.gamma2, start.ro2, E.p))*r) / (start.gamma2 + 1);
+        p4 = (E.p / (start.gamma2 + 1))*(r / (r - start.gamma2*M5Max(ALPHA1(start.A1, start.A2), start.gamma2)));
+       // cout << "\n\n THIRD p4" << p4;
+    }
+    else
+	//if (E.p <= p5 && p5 < B.p && B.u < u5 && u5 <= E.u)
 	{
        
 		double ro5 = start.ro2;
@@ -92,24 +102,15 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
         {
             u4 = U4_8(a, u5, start.gamma2, z, dzetta);
         }
-        else if (z < 0)
+        else
         {
             u4 = U4_9(a, u5, start.gamma2, z, dzetta);
         }
 		
 		p4 = P4(u4, u5, ro5, p5, ALPHA1(start.A1, start.A2));
-       // cout << "\n\n SECOND p4" << p4;
+      //  cout << "\n\n SECOND p4" << p4 <<" \n u4" << u4 << " \n a" << a << " \n z" << z << " \n dzetta" << dzetta;
 	}
-    else
-	// if (fabs(p5 - E.p)<=1 && fabs(u5 - E.u)<=1)
-	{
-        
-		double r = sqrt((start.gamma2 + 1)*(2 + (start.gamma2 - 1)*pow(M5Max(ALPHA1(start.A1, start.A2), start.gamma2), 2)));
-
-		u4 = (sqrt(C5QUADR(start.gamma2, start.ro2, E.p))*r) / (start.gamma2 + 1);
-		p4 = (E.p / (start.gamma2 + 1))*(r / (r - start.gamma2*M5Max(ALPHA1(start.A1, start.A2), start.gamma2)));
-       // cout << "\n\n THIRD p4" << p4;
-	}
+    
 	return Point{ p4, u4 };
 }
 
@@ -260,7 +261,7 @@ Point Search_Conf_B(START &start, Point &El2, Point &B,int i)//sonic
 	//double p = p4;
 	//double u = u4;
 
-     //double p = start.p2;
+   //  double p = start.p2;
 
     double p = B.p;
     double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
