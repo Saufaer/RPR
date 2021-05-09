@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 		int c = 1;
 		while (getline(fin, line))
 		{
-            string res = "\n\n========================== TASK "+std::to_string(c)+" =========================\n\nINPUT:";
+            string res = "\n\n========================== TASK "+std::to_string(c)+" =========================\n\nINPUT: A2;A1;p2;p1;u2;u1;ro2;ro1;g2;g1 = ";
             cout << res;
             
 
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 			c++;
 		}
 		fin.close();
-		cout << endl;
+		cout << "\n\n\n";
 	}
 
 

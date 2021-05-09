@@ -11,7 +11,7 @@ using namespace std;
 
 void Outflow_subsonic(START  &start, int i)
 {
-    string res = "";
+    string res = "\n\n OUTFLOW SUBSONIC \n";
     Point B(B(start));
     res += "\nB.p = " + to_string(B.p) + "\nB.u = " + to_string(B.u) + "\n";
 
@@ -61,7 +61,7 @@ void Outflow_subsonic(START  &start, int i)
 
 void Outflow_supercsonic(START  &start, int i)
 {
-    string res = "";
+    string res = "\n\n OUTFLOW SUPERSONIC \n";
 
     res += "\np2.p = " + to_string(start.p2) + "\nu2.u = " + to_string(start.u2) + "\n";
     Point B(B(start));
@@ -82,7 +82,6 @@ void Outflow_supercsonic(START  &start, int i)
     bool Finish = false;
     if (Check_CONF_CA(start,E, El2, Es, B))
     {
-        cout << "\n Check_CONF_CA";
         TwoPoints NN = Search_Conf_CA(start, Es, B, i);
 
         if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
@@ -97,7 +96,6 @@ void Outflow_supercsonic(START  &start, int i)
     {
         if (Check_CONF_CB(start, El2, E, B))
         {
-            cout << "\n Check_CONF_CB";
             Point NL1 = Search_Conf_CB(start, El2, B, i);
             if (Check_RES_Outflow_SuperSonic(E, El2))
             {
@@ -113,7 +111,6 @@ void Outflow_supercsonic(START  &start, int i)
     {
         if (Check_CONF_CC(start, E, Esl2, Es, B))
         {
-            cout << "\n Check_CONF_CC";
             TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
             if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
             {
@@ -128,7 +125,6 @@ void Outflow_supercsonic(START  &start, int i)
     {
         if (Check_CONF_CC1(start, El2, Esl2, E, Es, B))
         {
-            cout << "\n Check_CONF_CC1";
             TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
             if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
             {
@@ -144,7 +140,6 @@ void Outflow_supercsonic(START  &start, int i)
     {
         if (Check_CONF_CC2(start, El2, E, Es, B))
         {
-            cout << "\n Check_CONF_CC2";
             TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
             if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
             {
@@ -166,9 +161,9 @@ void Outflow_supercsonic(START  &start, int i)
 
 void Inflow_subsonic(START  &start, int i)
 {
-    string res = "";
+    string res = "\n\n INFLOW SUBSONIC \n";
     Point C1(C1(start));
-    res += "\n\nC1.p = " + to_string(C1.p) + "\nC1.u = " + to_string(C1.u) + "\n";
+    res += "\nC1.p = " + to_string(C1.p) + "\nC1.u = " + to_string(C1.u) + "\n";
     Point C2(C2(start));
     res += "\nC2.p = " + to_string(C2.p) + "\nC2.u = " + to_string(C2.u) + "\n";
     Point H(Get_H_from_l1(C2.p, C2.u, C2, C1, start));
@@ -228,9 +223,9 @@ void Inflow_subsonic(START  &start, int i)
 
 void Inflow_supersonic(START  &start, int i)
 {
-    string res = "";
+    string res = "\n\n INFLOW SUPERSONIC \n";
     Point C1(C1(start));
-    res += "\n\nC1.p = " + to_string(C1.p) + "\nC1.u = " + to_string(C1.u) + "\n";
+    res += "\nC1.p = " + to_string(C1.p) + "\nC1.u = " + to_string(C1.u) + "\n";
     Point C2(C2(start));
     res += "\nC2.p = " + to_string(C2.p) + "\nC2.u = " + to_string(C2.u) + "\n";
     Point Cs(Cs(start));
@@ -293,7 +288,7 @@ void Inflow_supersonic(START  &start, int i)
 void Solve_Outflow(START  &start, int i)
 {
     double M2 = start.u2 / start.c2;
-    cout << "Outflow M2= " << M2;
+    cout << "M2 = " << M2;
     if (M2 <= 1)
     {
         Outflow_subsonic(start, i);
@@ -307,7 +302,7 @@ void Solve_Outflow(START  &start, int i)
 void Solve_Inflow(START  &start, int i)
 {
     double M1 = start.u1 / start.c1;
-    cout << "Inflow M1= "<< M1;
+    cout << "M1 = "<< M1;
     if (M1 >= -1)
     {
         Inflow_subsonic(start, i);
@@ -323,7 +318,7 @@ void Solve(START &start, int i)
     start.c2 = sqrtf(start.gamma2*(start.p2 / start.ro2));
     start.c1 = sqrtf(start.gamma1*(start.p1 / start.ro1));
 
-    string c2c1 = "\nc2 = " + to_string(start.c2) + "\n" + "c1 = " + to_string(start.c1) + "\n";
+    string c2c1 = "\n\nc2 = " + to_string(start.c2) + "\n" + "c1 = " + to_string(start.c1) + "\n";
     //Write(c2c1);
     cout << c2c1;
     if (start.u2 > 0 && start.u1 > 0)

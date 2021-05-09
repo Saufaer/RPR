@@ -85,7 +85,6 @@ TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
         uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
         if (/*fabs(u - uL1) <= 10 || */fabs(pl2.u - uL1) <= 10) {
-            cout << "\n pl2.p=" << pl2.p;
             IsSearch = true;
             TwoPoints.NL1 = pl2;
 
@@ -130,7 +129,6 @@ TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
             uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
             if (/*fabs(u - uL1) <= 10 ||*/ fabs(pl2.u - uL1) <= 10) {
-                cout << "\n pl2.p=" << pl2.p;
                 IsSearch = true;
                 TwoPoints.NL1 = pl2;
                 TwoPoints.NL2 = Point{ p,u };
