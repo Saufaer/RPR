@@ -36,12 +36,12 @@ bool DOSTAT_Outflow_C(START start, Point E_default)
     return DOSTAT;
 }
 
-bool Check_CONF_CA(START start, Point El2, Point Es, Point B)
+bool Check_CONF_CA(START start, Point E, Point El2, Point Es, Point B)
 {
     bool res1 = false;
     bool res2 = false;
 
-    if ((Es.p - El2.p < -0.01) && (Es.u - El2.u > 0.01))
+    if ((Es.p - E.p < 0) && (Es.u - E.u > 0))
     {
         res1 = true;
     }
@@ -63,12 +63,104 @@ bool Check_CONF_CA(START start, Point El2, Point Es, Point B)
 
 TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
 {
-    return Search_Conf_A(start, E, B, i);
+    Point Es(Es(start));
+
+    double p = start.p2;
+    double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
+    Point pl2{ 0,0 };
+    double uL1 = 0;
+    bool IsSearch = false;
+
+    TwoPoints TwoPoints{ NULL, NULL };
+
+    while (true)//start down from (p2,u2) to B
+    {
+
+        p += 0.5;
+        if (p >= B.p) { break; }
+        u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
+
+        pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+        //cout << "\n pl2.p=" << pl2.p;
+        uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
+
+        if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
+            IsSearch = true;
+            TwoPoints.NL1 = pl2;
+
+            TwoPoints.NL2 = Point{ p,u };
+            break;
+        }
+
+        /////////// Write lines
+        int c = round(p);
+        if (((c % 474) == 0) && (pl2.p > 0))
+        {
+            //cout <<" L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n";
+            Write("L1_1.p = " + to_string(p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt", i);
+            Write("pl2_1.p = " + to_string(pl2.p) + "\n" + "pl2_1.u = " + to_string(pl2.u) + "\n", "pl2_1.txt", i);
+            Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt", i);
+        }
+    }
+    if (IsSearch)
+    {
+        Write("L1_1.p = " + to_string(p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt", i);
+        Write("pl2_1.p = " + to_string(pl2.p) + "\n" + "pl2_1.u = " + to_string(pl2.u) + "\n", "pl2_1.txt", i);
+        Write("L2_1.p = " + to_string(p) + "\n" + "L2_1.u = " + to_string(u) + "\n", "L2_1.txt", i);
+    }
+    //////////
+
+
+    if (!IsSearch)//start up from (p2,u2) to E
+    {
+        //p = B.p;
+        p = start.p2;
+        u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
+        while (true)
+        {
+            p -= 0.5;
+            if (p < 0) { break; }
+            u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
+
+            pl2 = Get_from_l2(p, u, E, B, start);//point from l2
+            //cout << "\n pl2.p="<<pl2.p;
+            
+
+            uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
+
+            if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
+                IsSearch = true;
+                TwoPoints.NL1 = pl2;
+                TwoPoints.NL2 = Point{ p,u };
+                break;
+            }
+
+            /////////// Write lines
+            int c = round(p);
+            if (((c % 474) == 0) && (pl2.p > 0))
+            {
+                Write("L1_2.p = " + to_string(p) + "\n" + "L1_2.u = " + to_string(uL1) + "\n", "L1_2.txt", i);
+                Write("pl2_2.p = " + to_string(pl2.p) + "\n" + "pl2_2.u = " + to_string(pl2.u) + "\n", "pl2_2.txt", i);
+                Write("L2_2.p = " + to_string(p) + "\n" + "L2_2.u = " + to_string(u) + "\n", "L2_2.txt", i);
+            }
+
+        }
+        if (IsSearch)
+        {
+            Write("L1_2.p = " + to_string(p) + "\n" + "L1_2.u = " + to_string(uL1) + "\n", "L1_2.txt", i);
+            Write("pl2_2.p = " + to_string(pl2.p) + "\n" + "pl2_2.u = " + to_string(pl2.u) + "\n", "pl2_2.txt", i);
+            Write("L2_2.p = " + to_string(p) + "\n" + "L2_2.u = " + to_string(u) + "\n", "L2_2.txt", i);
+        }
+        ///////////
+    }
+
+
+    return TwoPoints;
 }
 
-bool Check_CONF_CB(START start, Point El2, Point Es, Point B)
+bool Check_CONF_CB(START start, Point E, Point Es, Point B)
 {
-    if (fabs(Es.p - El2.p) <= 1 && fabs(Es.u - El2.u) <= 1)
+    if (fabs(Es.p - E.p) <= 1 && fabs(Es.u - E.u) <= 1)
     {
         return true;
     }
@@ -83,12 +175,12 @@ Point Search_Conf_CB(START &start, Point &El2, Point &B, int i)//supersonic
     return Search_Conf_B(start, El2, B, i);
 }
 
-bool Check_CONF_CC(START start, Point El2, Point Esl2,  Point Es, Point B)
+bool Check_CONF_CC(START start, Point E, Point Esl2,  Point Es, Point B)
 {
     bool res1 = false;
     bool res2 = false;
 
-    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
+    if ((Es.p - E.p > 0) && (Es.u - E.u < 0))
     {
         res1 = true;
     }
@@ -204,14 +296,14 @@ TwoPoints Search_Conf_CC(START &start, Point &E, Point &Es, Point &B, int i)//su
 bool Check_CONF_CC1(START start, Point El2, Point Esl2, Point E, Point Es, Point B)
 {
     // is true for CC12:
-    E.u = start.u2;
-    E.p = start.p2;
+    //E.u = start.u2;
+    //E.p = start.p2;
     //E'(p2', u2')
-    El2 = Get_from_l2(start.u2, start.p2, Es, B, start);
+    //El2 = Get_from_l2(start.u2, start.p2, Es, B, start);
 
     bool res1 = false;
     bool res2 = false;
-    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
+    if ((Es.p - E.p > 0.01) && (Es.u - E.u < -0.01))
     {
         res1 = true;
     }
@@ -332,15 +424,15 @@ TwoPoints Search_Conf_CC1(START &start, Point &E, Point &Es, Point &B, int i)//s
 bool Check_CONF_CC2(START start, Point El2, Point E, Point Es, Point B)
 {
     // is true for CC12:
-    E.u = start.u2;
-    E.p = start.p2;
+    //E.u = start.u2;
+    //E.p = start.p2;
 
     // E'(p2',u2')
-    El2 = Get_from_l2(start.u2, start.p2, Es, B, start);
+    //El2 = Get_from_l2(start.u2, start.p2, Es, B, start);
 
     bool res1 = false;
     bool res2 = false;
-    if ((Es.p - El2.p > 0.01) && (Es.u - El2.u < -0.01))
+    if ((Es.p - E.p > 0) && (Es.u - E.u < 0))
     {
         res1 = true;
     }

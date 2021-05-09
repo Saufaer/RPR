@@ -52,7 +52,7 @@ void Outflow_subsonic(START  &start, int i)
     }
 
     if (!Finish)
-    {
+    { 
         Write(res, "Points.txt", i);
         cout << "\n Possible configuration for Outflow not found, start conditions unconsists, skip solving";
         cout << res;
@@ -62,6 +62,8 @@ void Outflow_subsonic(START  &start, int i)
 void Outflow_supercsonic(START  &start, int i)
 {
     string res = "";
+
+    res += "\np2.p = " + to_string(start.p2) + "\nu2.u = " + to_string(start.u2) + "\n";
     Point B(B(start));
     res += "\nB.p = " + to_string(B.p) + "\nB.u = " + to_string(B.u) + "\n";
 
@@ -78,9 +80,11 @@ void Outflow_supercsonic(START  &start, int i)
     res += "\nEsl2.p = " + to_string(Esl2.p) + "\nEsl2.u = " + to_string(Esl2.u) + "\n";
 
     bool Finish = false;
-    if (Check_CONF_CA(start, El2, Es, B))
+    if (Check_CONF_CA(start,E, El2, Es, B))
     {
-        TwoPoints NN = Search_Conf_CA(start, E, B, i);
+        cout << "\n Check_CONF_CA";
+        TwoPoints NN = Search_Conf_CA(start, Es, B, i);
+
         if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
         {
             res += GetConfigCA(start, NN);
@@ -91,8 +95,9 @@ void Outflow_supercsonic(START  &start, int i)
     }
     if (!Finish)
     {
-        if (Check_CONF_CB(start, El2, Es, B))
+        if (Check_CONF_CB(start, El2, E, B))
         {
+            cout << "\n Check_CONF_CB";
             Point NL1 = Search_Conf_CB(start, El2, B, i);
             if (Check_RES_Outflow_SuperSonic(E, El2))
             {
@@ -106,8 +111,9 @@ void Outflow_supercsonic(START  &start, int i)
     }
     if (!Finish)
     {
-        if (Check_CONF_CC(start, El2, Esl2, Es, B))
+        if (Check_CONF_CC(start, E, Esl2, Es, B))
         {
+            cout << "\n Check_CONF_CC";
             TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
             if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
             {
@@ -122,6 +128,7 @@ void Outflow_supercsonic(START  &start, int i)
     {
         if (Check_CONF_CC1(start, El2, Esl2, E, Es, B))
         {
+            cout << "\n Check_CONF_CC1";
             TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
             if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
             {
@@ -137,6 +144,7 @@ void Outflow_supercsonic(START  &start, int i)
     {
         if (Check_CONF_CC2(start, El2, E, Es, B))
         {
+            cout << "\n Check_CONF_CC2";
             TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
             if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
             {
