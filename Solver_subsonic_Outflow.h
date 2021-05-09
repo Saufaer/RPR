@@ -76,7 +76,7 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 	{
 		p4 = B.p;
 		u4 = 0;
-      // cout << "\n\n FIRST p4" << p4;
+     //  cout << "\n\n FIRST p4" << p4;
 	}
 	
     if (fabs(p5 - E.p) <= 1 && fabs(u5 - E.u) <= 1)
@@ -86,7 +86,7 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
 
         u4 = (sqrt(C5QUADR(start.gamma2, start.ro2, E.p))*r) / (start.gamma2 + 1);
         p4 = (E.p / (start.gamma2 + 1))*(r / (r - start.gamma2*M5Max(ALPHA1(start.A1, start.A2), start.gamma2)));
-       // cout << "\n\n THIRD p4" << p4;
+     //   cout << "\n\n THIRD p4" << p4;
     }
     else
 	//if (E.p <= p5 && p5 < B.p && B.u < u5 && u5 <= E.u)
@@ -108,7 +108,7 @@ Point Get_from_l2(double p5, double u5, Point E, Point B, START start)
         }
 		
 		p4 = P4(u4, u5, ro5, p5, ALPHA1(start.A1, start.A2));
-      //  cout << "\n\n SECOND p4" << p4 <<" \n u4" << u4 << " \n a" << a << " \n z" << z << " \n dzetta" << dzetta;
+      // cout << "\n\n SECOND p4" << p4 <<" \n u4" << u4 << " \n a" << a << " \n z" << z << " \n dzetta" << dzetta;
 	}
     
 	return Point{ p4, u4 };

@@ -46,12 +46,12 @@ bool Check_CONF_CA(START start, Point E, Point El2, Point Es, Point B)
         res1 = true;
     }
 
-    if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow_C(start, El2))
-    {
-        res2 = true;
-    }
+    //if (NEOBHODIM_Outflow(start, B) && DOSTAT_Outflow_C(start, El2))
+    //{
+    //    res2 = true;
+    //}
 
-    if (res1 && res2)
+    if (res1 /*&& res2*/)
     {
         return true;
     }
@@ -64,7 +64,7 @@ bool Check_CONF_CA(START start, Point E, Point El2, Point Es, Point B)
 TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
 {
     Point Es(Es(start));
-
+    Point Esl2 = Get_from_l2(Es.p, Es.u, Es, B, start);
     double p = start.p2;
     double u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
     Point pl2{ 0,0 };
@@ -77,14 +77,15 @@ TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
     {
 
         p += 0.5;
-        if (p >= B.p) { break; }
+        if (p >= B.p) {  break; }
         u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
 
         pl2 = Get_from_l2(p, u, E, B, start);//point from l2
-        //cout << "\n pl2.p=" << pl2.p;
+        
         uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-        if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
+        if (/*fabs(u - uL1) <= 10 || */fabs(pl2.u - uL1) <= 10) {
+            cout << "\n pl2.p=" << pl2.p;
             IsSearch = true;
             TwoPoints.NL1 = pl2;
 
@@ -122,13 +123,14 @@ TwoPoints Search_Conf_CA(START &start, Point &E, Point &B, int i)//supersonic
             if (p < 0) { break; }
             u = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);//point from L2
 
-            pl2 = Get_from_l2(p, u, E, B, start);//point from l2
-            //cout << "\n pl2.p="<<pl2.p;
+            pl2 = Get_from_l2(p, u, Es, B, start);//point from l2
+
             
 
             uL1 = L1(p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1);
 
-            if (fabs(u - uL1) <= 10 || fabs(pl2.u - uL1) <= 10) {
+            if (/*fabs(u - uL1) <= 10 ||*/ fabs(pl2.u - uL1) <= 10) {
+                cout << "\n pl2.p=" << pl2.p;
                 IsSearch = true;
                 TwoPoints.NL1 = pl2;
                 TwoPoints.NL2 = Point{ p,u };
