@@ -26,7 +26,6 @@ void Outflow_subsonic(START  &start, int i)
 
     if (Check_CONF_A(start, El2, B)) //subsonic
     {
-        cout << "\n\nCONF A\n\n";
         TwoPoints NN = Search_Conf_A(start, E, B, i);
         if (Check_RES_Outflow(NN.NL2, NN.NL1))
         {

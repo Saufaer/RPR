@@ -84,7 +84,7 @@ string GetConfigB(START start,Point El2, Point NL1, Point E)//OutFlow B
 {
     string res = "";
 
-    res += "\nCONFIG B - SONIC\n";
+    res += "\nCONFIG B - SUBSONIC\n";
     res += "CONFIG NUMBER: " + GetNumberFromB(start,  El2,  NL1,  E) + "\n";
     res += "\n";
     res += "El2_4.p4=" + to_string(El2.p) + "\n";

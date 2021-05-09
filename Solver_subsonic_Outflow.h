@@ -119,7 +119,7 @@ bool Check_CONF_A(START start, Point El2, Point B)
     bool res1 = false;
     bool res2 = false;
 
-    //if (L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u <= 0.0001)
+    //if (fabs(L1(El2.p, start.u1, start.p1, start.ro1, start.gamma1, start.gamma2, start.c1) - El2.u) <= 0.0001)
     //{
     //    res1 = true;
     //}
@@ -280,7 +280,7 @@ Point Search_Conf_B(START &start, Point &El2, Point &B,int i)//sonic
 
         /////////// Write lines
         int c = round(p);
-        if (((c % 114) == 0))
+        if (((c % 474) == 0))
         {
             Write("L1_1.p = " + to_string(p) + "\n" + "L1_1.u = " + to_string(uL1) + "\n", "L1_1.txt", i);
             Write("l2.p = " + to_string(p) + "\n" + "l2.u = " + to_string(u) + "\n", "l2.txt", i);
@@ -302,7 +302,7 @@ bool Check_RES_Outflow(Point N_L2,Point N_L1)
 	double u5 = N_L2.u;
 
 	bool correct = false;
-	if ((p4 <= p5) && (u4 >= u5))
+	if ((p4 <= p5) && (u4 >= u5) && (p4 > 0) && (p5 > 0))
 	{
 		correct = true;
 	}
