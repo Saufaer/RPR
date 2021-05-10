@@ -633,6 +633,6 @@ string GetConfigD2(START start, TwoPoints NN)//InFlow D2
     res += "2.p2 = " + to_string(start.p2) + "\n";
     res += "2.u2 = " + to_string(start.u2) + "\n";
     res += "\n";
-    res += "CHECK: " + to_string(Check_RES_Inflow(start, NN.NL2, NN.NL1));
+    res += "CHECK: " + to_string(Check_RES_Inflow_SuperSonic(start, NN.NL2, NN.NL1));
     return res;
 }

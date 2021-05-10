@@ -328,7 +328,7 @@ Point Search_Conf_B1(START &start, Point &F, Point &C1, int i)
 	{
 
 		if (fabs(u - uL2) <= 10) { break; }
-        if (p >= C1.p) { break; }
+        if (p >= start.p2) { break; }
 		p += 1;
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 		u = Addict_l1(p, p5, u5, start.c1, start.gamma1, ro5);

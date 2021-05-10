@@ -253,7 +253,7 @@ void Inflow_supersonic(START  &start, int i)
         if (Check_CONF_D1(start, C1, C2, Cs, C2s))
         {
             TwoPoints NN = Search_Conf_D1(start, C2, C1, Cs, C2s, i);
-            if (Check_RES_Inflow_SuperSonic(start, NN.NL2, NN.NL1))
+            if (Check_RES_Inflow(start, NN.NL2, NN.NL1))
             {
             res += GetConfigD1(start, NN);
             cout << res;
