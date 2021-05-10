@@ -8,6 +8,16 @@ using namespace std;
 #include "Solver_supersonic_Inflow.h"
 #include <iostream>
 
+double C(double gamma, double p, double u, double ro)
+{
+    double C = sqrtf(gamma*p/ro);
+    return C;
+}
+double M(double gamma, double p, double u, double ro)
+{
+    double M = u/C(gamma,p,u,ro);
+    return M;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////        OutFlow subsonic
 
@@ -35,6 +45,8 @@ string GetNumberFromA(START start, TwoPoints NN)//OutFlow A
 string GetConfigA(START start, TwoPoints NN)//OutFlow A
 {
     string res = "";
+
+ 
 
     res += "\n CONFIG A " + GetNumberFromA(start, NN) + "\n";
     res += "\n";
@@ -83,6 +95,11 @@ string GetConfigB(START start,Point El2, Point NL1, Point E)//OutFlow B
 {
     string res = "";
 
+    //cout << "\n M4 " << M(start.gamma1, El2.p, El2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NL1.p, NL1.u, start.ro1);
+    //cout << "\n M3' " << M(start.gamma1, NL1.p, NL1.u, start.ro1);
+    //cout << "\n M5 " << M(start.gamma1, E.p, E.u, start.ro2);
+
     res += "\n CONFIG B " + GetNumberFromB(start,  El2,  NL1,  E) + "\n";
     res += "\n";
     res += "El2_4.p4 = " + to_string(El2.p) + "\n";
@@ -126,6 +143,10 @@ string GetConfigCA(START start, TwoPoints NN)//OutFlow CA
 {
     string res = "";
 
+    //cout << "\n M4 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
+    //cout << "\n M5 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro2);
+
     res += "\n CONFIG CA " + GetNumberFromCA(start, NN) + "\n";
     res += "\n";
     res += "NL1_4.p4 = " + to_string(NN.NL1.p) + "\n";
@@ -164,6 +185,11 @@ string GetNumberFromCB(START start, Point El2, Point NL1, Point E)//OutFlow CB
 string GetConfigCB(START start, Point El2, Point NL1, Point E)//OutFlow CB
 {
     string res = "";
+
+    //cout << "\n M4 " << M(start.gamma1, El2.p, El2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NL1.p, NL1.u, start.ro1);
+    //cout << "\n M3' " << M(start.gamma1, NL1.p, NL1.u, start.ro1);
+    //cout << "\n M5 " << M(start.gamma1, E.p, E.u, start.ro2);
 
     res += "\n CONFIG CB " + GetNumberFromCB(start, El2, NL1, E) + "\n";
     res += "\n";
@@ -206,6 +232,10 @@ string GetConfigCC(START start, TwoPoints NN)//OutFlow CC
 {
     string res = "";
 
+    //cout << "\n M4 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
+    //cout << "\n M5 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro2);
+
     res += "\n CONFIG CC " + GetNumberFromCC(start, NN) + "\n";
     res += "\n";
     res += "NL1_4.p4 = " + to_string(NN.NL1.p) + "\n";
@@ -244,6 +274,10 @@ string GetConfigCC1(START start, TwoPoints NN)//OutFlow CC1
 {
     string res = "";
 
+    //cout << "\n M4 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
+    //cout << "\n M3' " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
+
     res += "\n CONFIG CC1 " + GetNumberFromCC1(start, NN) + "\n";
     res += "\n";
     res += "NL1_4.p4 = " + to_string(NN.NL2.p) + "\n";
@@ -281,6 +315,10 @@ string GetNumberFromCC2(START start, TwoPoints NN)//OutFlow CC2
 string GetConfigCC2(START start, TwoPoints NN)//OutFlow CC2
 {
     string res = "";
+
+    //cout << "\n M4 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
+    //cout << "\n M3' " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro1);
 
     res += "\n CONFIG CC2 " + GetNumberFromCC2(start, NN) + "\n";
     res += "\n";
@@ -329,6 +367,11 @@ string GetNumberFromA1(START start, TwoPoints NN)//InFlow A1
 string GetConfigA1(START start, TwoPoints NN)//InFlow A1
 {
     string res = "";
+
+    //cout << "\n M4 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
+    //cout << "\n M5 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
+
     res += "\n CONFIG A1 " + GetNumberFromA1(start, NN) + "\n";
     res += "\n";
     res += "NL2_4.p4 = " + to_string(NN.NL2.p) + "\n";
@@ -376,6 +419,11 @@ string GetNumberFromB1(START start, Point NL2, Point F)//InFlow B1
 string GetConfigB1(START start, Point C2, Point NL2, Point F)//InFlow B1
 {
     string res = "";
+
+    //cout << "\n M4 " << M(start.gamma1, C2.p, C2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NL2.p, NL2.u, start.ro2);
+    //cout << "\n M3' " << M(start.gamma1, NL2.p, NL2.u, start.ro2);
+    //cout << "\n M5 " << M(start.gamma1, F.p, F.u, start.ro2);
 
     res += "\n CONFIG B1 " + GetNumberFromB1(start, NL2, F) + "\n";
     res += "\n";
@@ -428,6 +476,11 @@ string GetConfigB2(START start, Point C2, Point NL2, Point F2)//InFlow B2
 {
     string res = "";
 
+    //cout << "\n M4 " << M(start.gamma1, C2.p, C2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NL2.p, NL2.u, start.ro2);
+    //cout << "\n M3' " << M(start.gamma1, NL2.p, NL2.u, start.ro2);
+    //cout << "\n M5 " << M(start.gamma1, F2.p, F2.u, start.ro2);
+
     res += "\n CONFIG B2 " + GetNumberFromB2(start, NL2, F2) + "\n";
     res += "\n";
     res += "C2_4.p4 = " + to_string(C2.p) + "\n";
@@ -472,6 +525,10 @@ string GetConfigDA(START start, TwoPoints NN)//InFlow DA
 {
     string res = "";
 
+    //cout << "\n M4 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
+    //cout << "\n M5 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
+
     res += "\n CONFIG DA " + GetNumberFromDA(start, NN) + "\n";
     res += "\n";
     res += "NL2_4.p4 = " + to_string(NN.NL2.p) + "\n";
@@ -500,16 +557,21 @@ string GetNumberFromD1(START start, TwoPoints NN)//InFlow D1
     {
         res = "number 1: S<-TR->B";
     }
-    if (NN.NL1.p >= start.p2 && NN.NL1.p <= NN.NL2.p)//p3 >= p2 && p3 <= p5
+    if (NN.NL1.p >= start.p2 && NN.NL1.p >= NN.NL2.p)//p3 >= p2 && p3 >= p5
     {
         res = "number 2: R<-TR->B";
     }
+
     return res;
 }
 
 string GetConfigD1(START start, TwoPoints NN)//InFlow D1
 {
     string res = "";
+
+    //cout << "\n M5 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
+    //cout << "\n M3' " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
 
     res += "\n CONFIG D1 " + GetNumberFromD1(start, NN) + "\n";
     res += "\n";
@@ -549,6 +611,10 @@ string GetNumberFromD2(START start, TwoPoints NN)//InFlow D2
 string GetConfigD2(START start, TwoPoints NN)//InFlow D2
 {
     string res = "";
+
+    //cout << "\n M4 " << M(start.gamma1, NN.NL2.p, NN.NL2.u, start.ro1);
+    //cout << "\n M3 " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
+    //cout << "\n M3' " << M(start.gamma1, NN.NL1.p, NN.NL1.u, start.ro2);
 
     res += "\n CONFIG D2 " + GetNumberFromD2(start, NN) + "\n";
     res += "\n";

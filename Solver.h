@@ -84,7 +84,7 @@ void Outflow_supercsonic(START  &start, int i)
     {
         TwoPoints NN = Search_Conf_CA(start, Es, B, i);
 
-        if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+        if (Check_RES_Outflow(NN.NL2, NN.NL1))
         {
             res += GetConfigCA(start, NN);
             cout << res;
@@ -97,7 +97,7 @@ void Outflow_supercsonic(START  &start, int i)
         if (Check_CONF_CB(start, El2, E, B))
         {
             Point NL1 = Search_Conf_CB(start, El2, B, i);
-            if (Check_RES_Outflow_SuperSonic(E, El2))
+            if (Check_RES_Outflow(E, El2))
             {
                 res += GetConfigCB(start, El2, NL1, E);
                 cout << res;
@@ -112,7 +112,7 @@ void Outflow_supercsonic(START  &start, int i)
         if (Check_CONF_CC(start, E, Esl2, Es, B))
         {
             TwoPoints NN = Search_Conf_CC(start, E, Es, B, i);
-            if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+            if (Check_RES_Outflow(NN.NL2, NN.NL1))
             {
                 res += GetConfigCC(start, NN);
                 cout << res;
@@ -126,7 +126,7 @@ void Outflow_supercsonic(START  &start, int i)
         if (Check_CONF_CC1(start, El2, Esl2, E, Es, B))
         {
             TwoPoints NN = Search_Conf_CC1(start, E, Es, B, i);
-            if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+            if (Check_RES_Outflow(NN.NL2, NN.NL1))
             {
                 res += GetConfigCC1(start, NN);
                 cout << res;
@@ -141,7 +141,7 @@ void Outflow_supercsonic(START  &start, int i)
         if (Check_CONF_CC2(start, El2, E, Es, B))
         {
             TwoPoints NN = Search_Conf_CC2(start, E, Es, B, i);
-            if (Check_RES_Outflow_SuperSonic(NN.NL2, NN.NL1))
+            if (Check_RES_Outflow(NN.NL2, NN.NL1))
             {
                 res += GetConfigCC2(start, NN);
                 cout << res;
@@ -166,7 +166,8 @@ void Inflow_subsonic(START  &start, int i)
     res += "\nC1.p = " + to_string(C1.p) + "\nC1.u = " + to_string(C1.u) + "\n";
     Point C2(C2(start));
     res += "\nC2.p = " + to_string(C2.p) + "\nC2.u = " + to_string(C2.u) + "\n";
-    Point H(Get_H_from_l1(C2.p, C2.u, C2, C1, start));
+    //Point H(Get_H_from_l1(C2.p, C2.u, C2, C1, start));
+    Point H(Get_from_l1(C2.p, C2.u, start));
     res += "\nH.p = " + to_string(H.p) + "\nH.u = " + to_string(H.u) + "\n";
     Point F(Get_F_from_l1(C2.p, C2.u, C2, C1, start));
     res += "\nF.p = " + to_string(F.p) + "\nF.u = " + to_string(F.u) + "\n";
@@ -321,7 +322,7 @@ void Solve(START &start, int i)
     string c2c1 = "\n\nc2 = " + to_string(start.c2) + "\n" + "c1 = " + to_string(start.c1) + "\n";
     //Write(c2c1);
     cout << c2c1;
-    if (start.u2 > 0 && start.u1 > 0)
+    if (start.u2 >= 0 && start.u1 >= 0)
     {
         Solve_Outflow(start, i);
     }

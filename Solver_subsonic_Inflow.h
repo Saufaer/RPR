@@ -254,7 +254,7 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 
 		uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 
-		if (fabs(u - uL2) <= 10 || fabs(pl1.u - uL2) <= 10) {
+		if (/*fabs(u - uL2) <= 10 ||*/ fabs(pl1.u - uL2) <= 10) {
 			IsSearch = true;
 			TwoPoints.NL1 = pl1;
 			TwoPoints.NL2 = Point{ p,u };
@@ -289,7 +289,7 @@ TwoPoints Search_Conf_A1(START &start, Point &C2, Point &C1,int i)
 
 			uL2 = L2(p, start.u2, start.p2, start.ro2, start.gamma2, start.c2);
 
-			if (fabs(u - uL2) <= 10 || fabs(pl1.u - uL2) <= 10) {
+			if (/*fabs(u - uL2) <= 10 || */fabs(pl1.u - uL2) <= 10) {
 				IsSearch = true;
 				TwoPoints.NL1 = pl1;
 				TwoPoints.NL2 = Point{ p,u };
